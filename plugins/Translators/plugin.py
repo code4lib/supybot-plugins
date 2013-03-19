@@ -432,6 +432,15 @@ class Translators(callbacks.Privmsg):
             pass
         irc.reply(' '.join(words))
     
+    def oprah(self, irc, msg, args):
+        """Give stuff away like Oprah"""
+        if len(args) == 0:
+            irc.reply("No favorite things to give away today!")
+            return
+        thing = ' '.join(args)
+        irc.reply('YOU get %s! And YOU get %s! And YOU get %s! EVERYONE GETS %s!' % (thing, thing, thing, thing.upper()), prefixNick=False)
+
+
 Class = Translators
 
 
