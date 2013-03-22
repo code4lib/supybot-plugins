@@ -31,6 +31,7 @@ class StackEx(callbacks.Plugin):
         self.__parent.__call__(irc, msg)
         now = int(time.time())
         wait = self.registryValue('waitPeriod')
+        wait = 900
         if now - self.last_request > wait:
             logger.info("looking for new questions since %s" % now)
             irc = callbacks.SimpleProxy(irc, msg)
