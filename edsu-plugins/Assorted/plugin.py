@@ -2024,4 +2024,17 @@ class Assorted(callbacks.Privmsg):
 
     rly = wrap(rly, ['text'])
 
+    def isitrainingin(self, irc, msg, args, where):
+        """[<location>]
+        Ask http://isitraining.in/<location>"""
+
+        html = urlopen("http://isitraining.in/" + where).read()
+        soup = BeautifulSoup(html, convertEntities=BeautifulStoneSoup.HTML_ENTITIES)
+        answer = soup.find('h1').text
+        exegesis = re.sub(r'\s+', ' ', ' '.join(soup.find('h2').findAll(text=True)))
+        response = u'%s. (%s)' % (answer, exegesis)
+        irc.reply(response.encode('utf8'), prefixNick=True)
+
+    isitrainingin = wrap(isitrainingin, ['text'])
+
 Class = Assorted
