@@ -2030,7 +2030,7 @@ class Assorted(callbacks.Privmsg):
 
         html = urlopen("http://isitraining.in/" + where).read()
         soup = BeautifulSoup(html, convertEntities=BeautifulStoneSoup.HTML_ENTITIES)
-        answer = soup.find('h1').text
+        answer = soup.find('h1').find(text=True)
         exegesis = re.sub(r'\s+', ' ', ' '.join(soup.find('h2').findAll(text=True)))
         response = u'%s. (%s)' % (answer, exegesis)
         irc.reply(response.encode('utf8'), prefixNick=True)
