@@ -359,6 +359,12 @@ class Assorted(callbacks.Privmsg):
         """
         irc.reply(self.count(' '.join(args)))
 
+    def skillz(self,irc,msg,args):
+        """generate a fantasy Internet user"""
+        attrs = ['Posturing', 'FanFiction', 'SocialMedia', 'Chat', 'LOLCats', 'Piracy', 'Email']
+        dev = ', '.join(["%s:%d" % (attr, self.dnd_attr()) for attr in attrs])
+        irc.reply(dev)
+
     def developer(self,irc,msg,args):
         """generate a fantasy developer"""
         attrs = ['Communication', 'BigPicture', 'DetailOriented', 'KungFu', 'GetsStuffDone', 'FlakeFactor', 'JavaAvoidance']
