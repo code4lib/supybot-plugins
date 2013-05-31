@@ -125,10 +125,10 @@ class Translators(callbacks.Privmsg):
         """
         text = ' '.join(args).split(' ')
         if len(text) < 2:
-          irc.reply('... Subways, subways, subways!')
+          irc.reply('Subways, subways, subways!')
         else:
           phrase = text[0:randint(1,len(text)-1)]
-          irc.reply(' '.join(phrase) + '... Anything else?')
+          irc.reply('Anything else?')
 
     def obamit(self, irc, msg, args):
         """
