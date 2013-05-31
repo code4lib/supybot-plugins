@@ -123,12 +123,9 @@ class Translators(callbacks.Privmsg):
         """
         Subways, subways, subways. Anything else?
         """
-        text = ' '.join(args).split(' ')
-        if len(text) < 2:
-          irc.reply('Subways, subways, subways!')
-        else:
-          phrase = text[0:randint(1,len(text)-1)]
-          irc.reply('Anything else?')
+        phrase = ["Subways, subways, subways!", "Anything else?", "I saved a billion dollars.", "I'm running for mayor in 2014!", "Gridlock creates pollution. It keeps you away from your families.", "Cyclists are a pain in the ass.", "The purpose of marathons is to create revenue for charities.", "I stopped the Gravy Train!"]
+        rford = choice(phrase)
+        irc.reply(rford)
 
     def obamit(self, irc, msg, args):
         """
