@@ -119,6 +119,17 @@ class Translators(callbacks.Privmsg):
           phrase = text[0:randint(1,len(text)-1)]
           irc.reply(' '.join(phrase) + '... Wait, what?')
 
+    def rofo(self, irc, msg, args):
+        """
+        Subways, subways, subways. Anything else?
+        """
+        text = ' '.join(args).split(' ')
+        if len(text) < 5:
+          irc.reply('... Subways, subways, subways!')
+        else:
+          phrase = text[0:randint(1,len(text)-1)]
+          irc.reply(' '.join(phrase) + '... Anything else?')
+
     def obamit(self, irc, msg, args):
         """
         Garners attention for your statements in a folksy way
