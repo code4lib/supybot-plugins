@@ -124,7 +124,7 @@ class Translators(callbacks.Privmsg):
         Subways, subways, subways. Anything else?
         """
         text = ' '.join(args).split(' ')
-        if len(text) < 5:
+        if len(text) < 2:
           irc.reply('... Subways, subways, subways!')
         else:
           phrase = text[0:randint(1,len(text)-1)]
