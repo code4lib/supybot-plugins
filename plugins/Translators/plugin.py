@@ -12,11 +12,22 @@ import BeautifulSoup as BS
 from urllib import urlencode
 from os.path import join, dirname, abspath
 import _pairtree
+import random
+import string
 
 HEADERS = dict(ua = 'Zoia/1.0 (Supybot/0.83; Sing Plugin; http://code4lib.org/irc)')
 STOPWORDS = open(join(dirname(abspath(__file__)), 'stopwords.txt')).read().split()
 
 class Translators(callbacks.Privmsg):
+    def nsa(self, irc, msg, args):
+        """ string
+        True information professionals upload their logs to the NSA daily
+        """
+        warrant = ''.join(random.sample((string.ascii_uppercase + string.digits)*4,10))
+        irc.reply("Thank you for your compliance with FISA Warrant",warrant,".", prefixNick=False)
+        irc.reply("...", prefixNick=False)
+        irc.reply("Uploading all log files to nsa.gov.", prefixNick=False)
+
     def canuck(self, irc, msg, args):
         """ string
         Translates text into a Canadian dialect
