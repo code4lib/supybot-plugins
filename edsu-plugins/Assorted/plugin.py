@@ -2043,4 +2043,9 @@ class Assorted(callbacks.Privmsg):
 
     isitrainingin = wrap(isitrainingin, ['text'])
 
+    def flip(self, irc, msg, args):
+        """Flip a table"""
+
+        irc.reply(u'╯°□°╯︵┻━┻'.encode('utf8'), prefixNick=True)
+
 Class = Assorted
