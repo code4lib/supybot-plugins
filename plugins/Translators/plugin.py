@@ -24,7 +24,7 @@ class Translators(callbacks.Privmsg):
         True information professionals upload their logs to the NSA daily
         """
         warrant = ''.join(random.sample((string.ascii_uppercase + string.digits)*4,10))
-        irc.reply("Thank you for your compliance with FISA Warrant",warrant,".", prefixNick=False)
+        irc.reply("Thank you for your compliance with FISA Warrant " + warrant + ".", prefixNick=False)
         irc.reply("...", prefixNick=False)
         irc.reply("Uploading all log files to nsa.gov.", prefixNick=False)
 
