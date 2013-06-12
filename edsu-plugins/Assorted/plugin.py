@@ -2046,11 +2046,11 @@ class Assorted(callbacks.Privmsg):
     def flip(self, irc, msg, args):
         """Flip a table"""
 
-        irc.reply(u'╯°□°╯︵┻━┻'.encode('utf8'), prefixNick=True)
+        irc.reply(u'╯°□°╯︵┻━┻'.encode('utf8'), prefixNick=False)
 
     def deflip(self, irc, msg, args):
         """Puts a table back in place"""
 
-        irc.reply(u'┬──┬◡ﾉ(° -°ﾉ)'.encode('utf8'), prefixNick=True)
+        irc.reply(u'┬──┬◡ﾉ(° -°ﾉ)'.encode('utf8'), prefixNick=False)
 
 Class = Assorted
