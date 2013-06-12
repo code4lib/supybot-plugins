@@ -2048,4 +2048,9 @@ class Assorted(callbacks.Privmsg):
 
         irc.reply(u'╯°□°╯︵┻━┻'.encode('utf8'), prefixNick=True)
 
+    def deflip(self, irc, msg, args):
+        """Puts a table back in place"""
+
+        irc.reply(u'┬──┬◡ﾉ(° -°ﾉ)'.encode('utf8), prefixNick=True)
+
 Class = Assorted
