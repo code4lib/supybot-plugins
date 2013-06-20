@@ -34,6 +34,7 @@ import supybot.plugins as plugins
 import supybot.ircutils as ircutils
 import supybot.callbacks as callbacks
 
+import tweepy
 import simplejson
 import supybot.utils.web as web
 import time
@@ -48,6 +49,12 @@ SNARFERS = ['binged.it','bit.ly','fb.me','goo.gl','is.gd','ow.ly','su.pr','tinyu
 
 class TwitterSnarfer(callbacks.PluginRegexp):
   regexps = ['tweetSnarfer']#,'shortUrlSnarfer']
+  
+  def _api(self):
+      auth = tweepy.OAuthHandler('BahWsa9ynBogaXxRoJPX5Q', '5bWdyET8iFpFUlpFuFJV02NOILoKEn5u6jt7TwXoXI')
+      auth.set_access_token('116458525-eI3WNzzatAm4S7DjYzX5fjOCr1wGyY0NtrOdfOqk','H0I2F1cvL8Z421isUW4nARTgEC0nbDBFCmF4lLoE')
+      return tweepy.API(auth)
+
 
   def _fetch_json(self, url):
       doc = web.getUrl(url, headers=HEADERS)
@@ -66,16 +73,16 @@ class TwitterSnarfer(callbacks.PluginRegexp):
         return BSS(text.encode('utf8','ignore'), convertEntities=BSS.HTML_ENTITIES)
 
     def lengthen_urls(tweet):
-        for link in tweet['entities']['urls']:
-            tweet['text'] = tweet['text'].replace(link['url'], link['expanded_url'])
-        for media in tweet['entities'].get('media', []):
-            tweet['text'] = tweet['text'].replace(media['url'], media['media_url'])
+        for link in tweet.entities['urls']:
+            tweet.text = tweet.text.replace(link['url'], link['expanded_url'])
+        for media in tweet.entities.get('media', []):
+            tweet.text = tweet.text.replace(media.url, media.media_url)
 
     resp = 'Gettin nothin from teh twitter.'
     url = 'http://api.twitter.com/1/statuses/show/%s.json?include_entities=true' % (tweet_id)
-    tweet = self._fetch_json(url)
+    tweet = self._api().get_status(tweet_id)
     lengthen_urls(tweet)
-    resp = "<%s> %s" % (tweet['user']['screen_name'], recode(tweet['text']))
+    resp = "<%s> %s" % (tweet.author.screen_name, recode(tweet.text))
     irc.reply(resp.replace('\n',' ').strip(' '), prefixNick=False)
 
   def shortUrlSnarfer(self, irc, msg, match):

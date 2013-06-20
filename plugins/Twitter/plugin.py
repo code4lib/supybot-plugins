@@ -81,7 +81,7 @@ class Twitter(callbacks.Plugin):
 
     def _lengthen_urls(self, tweet):
         for link in tweet.entities['urls']:
-            tweet.text = tweet.text.replace(link['urls']['url'], link['urls']['expanded_url'])
+            tweet.text = tweet.text.replace(link['url'], link['expanded_url'])
         for media in tweet.entities.get('media', []):
             tweet.text = tweet.text.replace(media.url, media.media_url)
 
