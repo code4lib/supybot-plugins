@@ -111,7 +111,7 @@ class Twitter(callbacks.Plugin):
         if tweet_id:
             tweet = self.api.get_status(tweet_id)
             self._lengthen_urls(tweet)
-            resp = "<%s> %s" % (tweet.author.screen_name, recode(tweet['text']))
+            resp = "<%s> %s" % (tweet.author.screen_name, recode(tweet.text))
         elif query:
             if screen_name:
                 query = "%s %s" % (screen_name, query)
