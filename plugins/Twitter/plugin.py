@@ -10,6 +10,7 @@ import re
 import simplejson
 import supybot.utils.web as web
 import time
+import datetime
 from urllib import urlencode, quote
 from BeautifulSoup import BeautifulStoneSoup as BSS
 import lxml.html
@@ -169,11 +170,11 @@ class Twitter(callbacks.Plugin):
             tweets=self.api.mentions_timeline()
         responses = []
         if tweets:
-            now = time.time()
+            now = datetime.datetime.now()
             self.last_mention = tweets[0].id
             for tweet in tweets:
-                age = now - calendar.timegm(time.strptime(tweet.created_at,'%a %b %d %H:%M:%S +0000 %Y'))
-                if (maxAge is None) or (age <= maxAge):
+                age = now - tweet.created_at
+                if (maxAge is None) or (age <= datetime.timedelta(seconds=maxAge)):
                     self._lengthen_urls(tweet)
                     responses.append('<%s> %s' % (tweet.author.screen_name,tweet.text))
             responses.reverse()
