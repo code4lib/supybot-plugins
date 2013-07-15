@@ -23,7 +23,7 @@ class Fixit(callbacks.Plugin):
                'SMS', 'shibbolize', 'hack', 'munge', 'yak-shave', 'rebase',
                'polish', 'fastfail', 'serialize', 'queue up', 'shard',
                'replicate', 'index', 'transliterate', 'subclass',
-               'superclass', 'catalog'
+               'superclass', 'catalog', 'interleave', 'mesh'
       ]
       
       nouns = ['framework', 'html5', 'rubygem', 'shawarma', 'web app', 
@@ -48,7 +48,8 @@ class Fixit(callbacks.Plugin):
                'hackfest', 'encoding', 'utf8', 'MARC8', 'pumpkins', 
                'pumpkin patch', 'turd', 'web hook', 'callback', 'shard',
                'hydra head', 'fulltext', 'diacritics', 'EAD',
-               'Mechanical Turk'
+               'Mechanical Turk', 'quine relay', 'INTERCAL', 'mesh network',
+               'octothorpe'
       ]
       
       verb = choice(verbs)
