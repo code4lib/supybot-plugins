@@ -58,11 +58,16 @@ class Fixit(callbacks.Plugin):
       advice = "Just "+verb+" the "+object+" with your "+tool+"."
       irc.reply(advice, prefixNick=True)
 
-    def mynewstartup(self, irc, msg, args):
+    def mynewstartup(self, irc, msg, args, who):
       """
       Your new business plan.  It is genius.  It cannot fail.
       """
       
+      if who is None:
+        owner = "Your"
+      else:
+        owner = "%s's" % who
+
       verb = choice(self.verbs)
       simile = choice(self.nouns)
       awesomesauce = choice(self.nouns)
@@ -71,7 +76,8 @@ class Fixit(callbacks.Plugin):
         article = " an "
       else:
         article = " a "
-      genius_plan = "Your new startup? It's like"+article+simile+", but you "+verb+" it with your "+awesomesauce+"."
+      genius_plan = "%s new startup? It's like%s%s, but you %s it with your %s" % (owner, article, simile, verb, awesomesauce)
       irc.reply(genius_plan, prefixNick=True)
 
+    mynewstartup = wrap(mynewstartup, [ optional('text') ])
 Class = Fixit
