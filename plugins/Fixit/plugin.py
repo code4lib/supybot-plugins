@@ -80,4 +80,6 @@ class Fixit(callbacks.Plugin):
       irc.reply(genius_plan, prefixNick=True)
 
     mynewstartup = wrap(mynewstartup, [ optional('text') ])
+    startup = mynewstartup
+    
 Class = Fixit
