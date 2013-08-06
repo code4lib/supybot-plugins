@@ -1132,7 +1132,7 @@ class Assorted(callbacks.Privmsg):
         ["forty of", ["Colt 45", "Camo 40", "Black Fist", "Country Club", "Olde English 800", "Mickey's", "Black Bull", 
           "Labatt Blue Dry 7.1", "WildCat", "Molson Dry 6.5/7.5/8.5/10.1", "Private Stock", "Big Bear", "St. Ides", 
           "Steel Reserve 211", "B40 Bull Max", "King Cobra", "Jeremiah Weed", "Hurricane"]],
-        ["bottle of", ["Zima", "Extra Dry Champale", "Pink Champale", "Golden Champale"]],
+        ["bottle of", ["Zima", "Extra Dry Champale", "Pink Champale", "Golden Champale", "Night Train", "MD 20/20", "Thunderbird", "Wild Irish Rose", "Cisco Red"]],
         ["can of Sparks", ["", "Light","Plus","Red","Stinger"]],
         ["bottle of Smirnoff Ice", ["Watermelon","Wild Grape","Passionfruit","Mango","Triple Black","Pomegranate Fusion",
           "Arctic Berry", "Green Apple Bite","Strawberry Acai","Pineapple","Raspberry Burst"]]
