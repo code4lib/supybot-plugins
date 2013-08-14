@@ -2048,15 +2048,20 @@ class Assorted(callbacks.Privmsg):
         """Flip a table"""
 
         if args:
-            string = ' '.join(args).encode('utf8')
+            string = upsidedown.transform(' '.join(args).encode('utf8'))
         else:
             string = u'┻━┻'
 
-        irc.reply(u'╯°□°╯︵{table}'.format(table=upsidedown.transform(string)).encode('utf8'), prefixNick=False)
+        irc.reply(u'╯°□°╯︵{table}'.format(table=string).encode('utf8'), prefixNick=False)
 
     def deflip(self, irc, msg, args):
         """Puts a table back in place"""
 
-        irc.reply(u'┬──┬◡ﾉ(° -°ﾉ)'.encode('utf8'), prefixNick=False)
+        if args:
+            string = upsidedown.transform(' '.join(args).encode('utf8'))
+        else:
+            string = u'┬──┬'
+
+        irc.reply(u'{table}◡ﾉ(° -°ﾉ)'.format(table=string).encode('utf8'), prefixNick=False)
 
 Class = Assorted
