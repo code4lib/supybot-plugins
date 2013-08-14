@@ -8,6 +8,7 @@ import re
 import simplejson
 import time
 import lxml
+import upsidedown
 from os.path import join, abspath, dirname
 from BeautifulSoup import BeautifulSoup, BeautifulStoneSoup, StopParsing
 from cgi import parse_qs
@@ -2046,7 +2047,12 @@ class Assorted(callbacks.Privmsg):
     def flip(self, irc, msg, args):
         """Flip a table"""
 
-        irc.reply(u'╯°□°╯︵┻━┻'.encode('utf8'), prefixNick=False)
+        if args:
+            string = ' '.join(args).encode('utf8')
+        else:
+            string = u'┻━┻'
+
+        irc.reply(u'╯°□°╯︵{table}'.format(table=upsidedown.transform(string)).encode('utf8'), prefixNick=False)
 
     def deflip(self, irc, msg, args):
         """Puts a table back in place"""
