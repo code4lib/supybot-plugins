@@ -2048,7 +2048,7 @@ class Assorted(callbacks.Privmsg):
         """Flip a table"""
 
         if args:
-            string = upsidedown.transform(' '.join(args).encode('utf8'))
+            string = upsidedown.transform(' '.join(args).decode('utf8'))
         else:
             string = u'┻━┻'
 
@@ -2058,7 +2058,7 @@ class Assorted(callbacks.Privmsg):
         """Puts a table back in place"""
 
         if args:
-            string = upsidedown.transform(' '.join(args).encode('utf8'))
+            string = upsidedown.transform(' '.join(args).decode('utf8'))
         else:
             string = u'┬──┬'
 
