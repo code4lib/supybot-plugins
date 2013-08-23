@@ -60,7 +60,7 @@ def lyricsmania_urls(artist, title):
         (title_norm, artist_norm)
     logger.info("Fetching %s" % url)
     html = web.getUrl(url, headers=HEADERS)
-    if html.find('not in our archive') != -1:
+    if html.find('<title>Lyrics Mania</title>') != -1:
         raise LyricsNotFound
     doc = fromstring(html)
     link = doc.xpath('//a[starts-with(@href, "/print")]')[0]
