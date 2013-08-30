@@ -80,6 +80,15 @@ class Twitter(callbacks.Plugin):
                 result = result.replace(longUrl,shortUrl)
         return(result)
 
+    def _fetch_json(self, url):
+        doc = web.getUrl(url, headers=HEADERS)
+        try:
+            json = simplejson.loads(doc)
+        except ValueError:
+            return None
+        return json
+
+
     def _lengthen_urls(self, tweet):
         for link in tweet.entities['urls']:
             tweet.text = tweet.text.replace(link['url'], link['expanded_url'])
