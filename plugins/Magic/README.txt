@@ -1,0 +1,1 @@
+Play Magic on IRC!
