@@ -38,7 +38,6 @@ import supybot.utils.web as web
 from urllib import urlopen
 import json
 from random import randint
-import re
 
 HEADERS = {'User-Agent': 'Zoia/1.0 (Supybot/0.83; Magic The Gathering Plugin; http://code4lib.org/irc)'}
 MTG_URL = "http://mtgapi.com/api/v1/fetch/"
@@ -66,37 +65,30 @@ class Magic(callbacks.Plugin):
 
         title = self._titlePrep(card['name'])
         type  = card['type']
-        text  = self._utf8Counterspell(''.join(card['text']))
-        flavor = self._utf8Counterspell(''.join(card['flavor'][0])) if card['flavor'] else ''
+        text  = u' '.join(card['text'])
+        flavor = u' '.join(card['flavor'][0]) if card['flavor'] else ''
 
         action = "plays"
         if "Land" in type:
-            action  = "lays down"
+            action  = u"lays down"
         if "Sorcery" in type:
-            action = "casts"
+            action = u"casts"
         if "Creature " in type:
-            action = "summons"
-        response = "%s %s %s." % (msg.nick, action, title)
+            action = u"summons"
+        response = u"%s %s %s." % (msg.nick, action, title)
         if text:
-            response += " \"%s\"" % (text)
+            response += u" %s" % (text)
         if flavor:
-            response += " \"%s\"" % (flavor)
-        return response
+            response += u" %s" % (flavor)
+            print response
+        return response.encode('utf8')
 
     def _titlePrep(self, title):
         if title[0] in 'aeiou':
             prep = "an"
         else:
             prep = "a"
-        return "%s %s" % (prep, title)
-
-    def _utf8Counterspell(self, text):
-        return re.sub('\xe2\x80\x94','--',text.encode('utf8'))
-
-
-
-
-
+        return u"%s %s" % (prep, title)
 
 Class = Magic
 
