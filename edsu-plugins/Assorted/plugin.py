@@ -2064,4 +2064,14 @@ class Assorted(callbacks.Privmsg):
 
         irc.reply(u'{table}◡ﾉ(° -°ﾉ)'.format(table=string).encode('utf8'), prefixNick=False)
 
+    def schmipsum(self, irc, msg, args, source, length):
+        """<shakespeare|bible|jane_austen|lewis_carroll|patents|nixon_tapes|college_essays|mission_statements|beatrix_potter|frankenstein> <length>
+        Generates filler text from real sources, courtesy of schmipsum.com"""
+
+        json = urlopen("http://www.schmipsum.com/ipsum/%s/%d" % (source,length)).read()
+        response = simplejson.loads(json)
+        ipsum = re.sub(r'\s+', ' ', response['ipsum'])
+        irc.reply(ipsum.encode('utf8'))
+
+    schmipsum = wrap(schmipsum, [('literal',('shakespeare','bible','jane_austen','lewis_carroll','patents','nixon_tapes','college_essays','mission_statements','beatrix_potter','frankenstein')), 'int'])
 Class = Assorted
