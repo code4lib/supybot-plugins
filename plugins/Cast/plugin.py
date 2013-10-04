@@ -35,6 +35,7 @@ import supybot.plugins as plugins
 import supybot.ircdb as ircdb
 import supybot.ircutils as ircutils
 import supybot.callbacks as callbacks
+import supybot.dbi as dbi
 
 import random
 import re
@@ -139,9 +140,29 @@ FREEBASE_TYPES = {
 }
 
 class Cast(callbacks.Plugin):
-      
+    
+    class DB(plugins.DbiChannelDB):
+        class DB(dbi.DB):
+            class Record(dbi.Record):
+                __fields__ = [ 
+                        'op'
+                        ]   
+
+
+    def __init__(self, irc):
+        self.__parent = super(Cast, self)
+        self.__parent.__init__(irc)
+        self.db = plugins.DB('NotMe',{'flat':self.DB})()
+
+    def _notme(self, channel):
+      result = [r.op for r in self.db.select(channel, lambda x: True)]
+      result.sort()
+      return result
+       
+
     def _query_tmdb(self, cmd, args):
       url = "http://api.themoviedb.org/2.1/%s/en/json/%s/%s" % (cmd,TMDBK,urllib.quote(str(args)))
+      print url
       doc = web.getUrl(url, headers=HEADERS)
       try:
         json = simplejson.loads(doc)
@@ -153,7 +174,7 @@ class Cast(callbacks.Plugin):
       """[<movie>]
       Cast <movie> from the current channel participants using information retrieved from themoviedb.org."""
       random.seed()
-      nicks = list(irc.state.channels[channel].users)
+      nicks = list(set(irc.state.channels[channel].users) - set(self._notme(channel)))
       random.shuffle(nicks)
       
       maxlen = 20
@@ -245,7 +266,7 @@ class Cast(callbacks.Plugin):
         return False
         
       random.seed()
-      nicks = list(irc.state.channels[channel].users)
+      nicks = list(set(irc.state.channels[channel].users) - set(self._notme(channel)))
       random.shuffle(nicks)
       
       record = None
