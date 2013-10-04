@@ -86,7 +86,7 @@ class NotMe(callbacks.Plugin):
         		irc.reply("The operation succeeded. %s has opted out of the fun in %s" % (msg.nick, channel), prefixNick=False)
     notme = wrap(notme, ['channeldb'])
 
-    def me(self, irc, msg, args, channel, op):
+    def remove(self, irc, msg, args, channel, op):
         """<op>
        Let the user have fun in channel again. Woohoo!"""
         if self._calledByOwner(irc, msg, args):
