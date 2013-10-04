@@ -40,7 +40,9 @@ import supybot.dbi as dbi
 
 class NotMe(callbacks.Plugin):
     """
-    A way for channel users to opt out of being named in plugins like who and cast.
+    A way for registered channel users to opt out of being named in plugins like who and cast.
+    Stores the nick in a Db which can be queried by other plugins to see who they should not bother.
+
     """
 
     class DB(plugins.DbiChannelDB):
@@ -116,7 +118,7 @@ class NotMe(callbacks.Plugin):
 	    		users = irc.state.channels[channel].users
 	    		ops = [op for op in ops if op in users]
 	    	else:
-	    		prefix = 'List of %s helpers (@help helpers for details)' % channel
+	    		prefix = 'List of %s fun haters (@help notme for details)' % channel
 
 	    	if len(ops) == 0:
 	    		irc.reply("No fun haters arein %s. Try again with --all to see all registered fun haters." % channel)
