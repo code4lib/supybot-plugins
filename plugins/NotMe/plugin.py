@@ -60,72 +60,44 @@ class NotMe(callbacks.Plugin):
         self.__parent.__init__(irc)
         self.db = plugins.DB(self.name(), {'flat': self.DB})()
 
-    def _ops(self, channel):
-    	result = [r.op for r in self.db.select(channel, lambda x: True)]
-    	result.sort()
-    	return result
+    def _optedOutList(self, channel):
+        result = [{"name": r.op, "id": r.id} for r in self.db.select(channel, lambda x: True)]
+        return result
 
-    def _calledByOwner(self, irc, msg, args):
+
+    def _calledByRegistered(self, irc, msg, args):
         try:
             u = ircdb.users.getUser(msg.prefix)
+            return True
         except KeyError:
             irc.errorNotRegistered()
-        else:
-            if u._checkCapability('owner'):
-                return True
-            else:
-                irc.error(conf.supybot.replies.noCapability() % ('owner'), Raise=True)
-        return False
+            return False
 
     def notme(self, irc, msg, args, channel):
         """
         Disallow the caller from having fun in channel"""
-        if self._calledByOwner(irc, msg, args):
-        	if msg.nick in self._ops(channel):
-        		irc.error("%s has already opted out of the fun in %s" % (msg.nick, channel), prefixNick=False)
-        	else:
-        		self.db.add(channel, msg.nick)
-        		irc.reply("The operation succeeded. %s has opted out of the fun in %s" % (msg.nick, channel), prefixNick=False)
+        if self._calledByRegistered(irc, msg, args):
+            for entry in self._optedOutList(channel):
+                if entry['name'] == msg.nick:
+                    irc.error("%s has already opted out of the fun in %s" % (msg.nick, channel), prefixNick=False)
+            else:
+                self.db.add(channel, msg.nick)
+                irc.reply("The operation succeeded. %s has opted out of the fun in %s" % (msg.nick, channel), prefixNick=False)
     notme = wrap(notme, ['channeldb'])
 
-    def remove(self, irc, msg, args, channel, op):
-        """<op>
+    def remove(self, irc, msg, args, channel):
+        """<name>
        Let the user have fun in channel again. Woohoo!"""
-        if self._calledByOwner(irc, msg, args):
-            ids = [r.id for r in self.db.select(channel, lambda r: r.op == op)]
-            if len(ids) == 0:
-            	irc.error("%s is already a part of the fun in  %s" % (op, channel), prefixNick=False)
+        if self._calledByRegistered(irc, msg, args):
+            for entry in  self._optedOutList(channel):
+                if entry['name'] == msg.nick:
+                    self.db.remove(channel, entry['id'])
+                    irc.reply("The operation succeeded. Welcome %s back to the fun in %s." % (msg.nick, channel ), prefixNick=False)
+                    break
             else:
-            	for i in ids:
-            		self.db.remove(channel, i)
-            	irc.reply("The operation suceeded. Welcome %s back to the fun in %s " % (op, channel ), prefixNick=False)
-    remove = wrap(remove, ['channeldb', 'nick'])
+                irc.error("%s is already a part of the fun in  %s." % (msg.nick, channel), prefixNick=False)
+    remove = wrap(remove, ['channeldb'])
 
-    def list(self, irc, msg, args, opts, channel):
-        """[--all]
-        List channel members who like to have decided not to participate in the fun!"""
-    	ops = self._ops(channel)
-    	if len(ops) == 0:
-    		irc.reply("No one has opted out of the fun on  %s" % channel)
-    	else:
-	    	current = True
-	    	for opt,arg in opts:
-	    		if opt == 'all':
-	    			current = False
-
-	    	if current:	
-	    		prefix = 'List of %s fun haters (@help notme for details)' % channel
-	    		users = irc.state.channels[channel].users
-	    		ops = [op for op in ops if op in users]
-	    	else:
-	    		prefix = 'List of %s fun haters (@help notme for details)' % channel
-
-	    	if len(ops) == 0:
-	    		irc.reply("No fun haters arein %s. Try again with --all to see all registered fun haters." % channel)
-	    	else:
-	    		irc.reply("%s: %s" % (prefix, ", ".join(ops)), prefixNick=False)
-
-    list = wrap(list, [getopts({'all':''}),'channeldb'])
 
 Class = NotMe 
 
