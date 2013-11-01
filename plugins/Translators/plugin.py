@@ -134,7 +134,7 @@ class Translators(callbacks.Privmsg):
         """
         Subways, subways, subways. Anything else?
         """
-        phrase = ["Subways, subways, subways!", "Anything else?", "I saved a billion dollars.", "I'm running for mayor in 2014!", "Gridlock creates pollution. It keeps you away from your families.", "Cyclists are a pain in the ass.", "The purpose of marathons is to create revenue for charities.", "I stopped the Gravy Train!"]
+        phrase = ["Subways, subways, subways!", "Anything else?", "I saved a billion dollars.", "I'm running for mayor in 2014!", "Gridlock creates pollution. It keeps you away from your families.", "Cyclists are a pain in the ass.", "The purpose of marathons is to create revenue for charities.", "I stopped the Gravy Train!", "I wish I could come out and defend myself, unfortunately I can't, 'cause it's before the court and that's all I can say right now.", "I have no reason to resign", "Nor am I an addict of crack cocaine."]
         rford = choice(phrase)
         irc.reply(rford)
 
