@@ -1202,7 +1202,8 @@ class Assorted(callbacks.Privmsg):
                       '2010': '13',
                       '2011': '17',
                       '2012': '21',
-                      '2013': '24'},
+                      '2013': '24',
+                      '2014': '28'},
             'logo': {'2008': '6'}
         }
         try:
@@ -1213,6 +1214,7 @@ class Assorted(callbacks.Privmsg):
         vote_url = base_url + poll_number 
         from socket import setdefaulttimeout
         setdefaulttimeout(60)
+        print poll_url
         try:
             json = urlopen(Request(poll_url, None, {'Accept': 'application/json'})).read()
         except HTTPError, e:
@@ -1226,9 +1228,21 @@ class Assorted(callbacks.Privmsg):
         tallies = [(vote['title'], vote['score']) for vote in votes]
         return tallies, vote_url
 
+    def talks2014(self, irc, msg, args):
+        """ 
+        Gets tally of talk votes for 2014 conference
+        """
+        try:
+            tallies, vote_url = self._diebold_tallies("talks", "2014")
+        except PollNotFoundException, pnfe:
+            irc.reply("Poll not found for talk votes in 2014: %s" % pnfe)
+        else:
+            irc.reply(('; '.join("%s [%s]" % t for t in tallies)).encode('utf-8'))
+            irc.reply("Voting link: %s" % vote_url)
+
     def talks2013(self, irc, msg, args):
         """ 
-        Gets tally of talk votes for 2012 conference
+        Gets tally of talk votes for 2013 conference
         """
         try:
             tallies, vote_url = self._diebold_tallies("talks", "2013")
@@ -2074,4 +2088,9 @@ class Assorted(callbacks.Privmsg):
         irc.reply(ipsum.encode('utf8'))
 
     schmipsum = wrap(schmipsum, [('literal',('shakespeare','bible','jane_austen','lewis_carroll','patents','nixon_tapes','college_essays','mission_statements','beatrix_potter','frankenstein')), 'int'])
+
+    def tank(self, irc, msg, args):
+        lines = (u'░░░░░███████ ]▄▄▄▄▄▄▄▄  ',u'▂▄▅█████████▅▄▃▂         ☻/',u'l██████████████████].       /▌',u'◥⊙▲⊙▲⊙▲⊙▲⊙▲⊙▲⊙◤..       / \\')
+        [irc.reply(line.encode('utf8'), prefixNick=False) for line in lines]
+
 Class = Assorted
