@@ -2093,4 +2093,7 @@ class Assorted(callbacks.Privmsg):
         lines = (u'░░░░░███████ ]▄▄▄▄▄▄▄▄  ',u'▂▄▅█████████▅▄▃▂         ☻/',u'l██████████████████].       /▌',u'◥⊙▲⊙▲⊙▲⊙▲⊙▲⊙▲⊙◤..       / \\')
         [irc.reply(line.encode('utf8'), prefixNick=False) for line in lines]
 
+    def sadtrombone(self, irc, msg, args):
+        irc.reply("Womp womp womp waaaaaaahhhh... http://sadtrombone.com/?play=true", prefixNick=False)
+
 Class = Assorted
