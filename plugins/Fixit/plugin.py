@@ -18,7 +18,7 @@ class Fixit(callbacks.Plugin):
            'SMS', 'shibbolize', 'hack', 'munge', 'yak-shave', 'rebase',
            'polish', 'fastfail', 'serialize', 'queue up', 'shard',
            'replicate', 'index', 'transliterate', 'subclass',
-           'superclass', 'catalog', 'interleave', 'mesh'
+           'superclass', 'catalog', 'interleave', 'mesh', 'reverse library disintermediation'
     ]
     
     nouns = ['framework', 'html5', 'rubygem', 'shawarma', 'web app', 
