@@ -37,14 +37,20 @@ import supybot.ircutils as ircutils
 import supybot.callbacks as callbacks
 import supybot.ircmsgs as ircmsgs
 import supybot.conf as conf
+import supybot.dbi as dbi
 import re 
 
 filename = conf.supybot.directories.data.dirize('Greeter.db')
+
+# The bot only sends messages to people who join #code4lib or the channels in this 
+# list. If you're testing the bot, add your test channel(s) here.
+test_channels = ['#jtgtestchannel', '#thataybottest']
 
 # ok, could use {} to replace channel and have a
 # generic method and have code4lib be a more specific one
 
 joinmsg = "Welcome to #code4lib! I'm %s, the channel bot. Visit http://code4lib.org/irc to find out more about this channel.  Type @helpers #code4lib for a list of people in channel who can help."
+helpermsg = "%s just joined #code4lib and might be new around here. Say hi, maybe?"
 
 # drawn in part from Herald and Seen
 class GreeterDB(plugins.ChannelUserDB):
@@ -73,17 +79,25 @@ class GreeterDB(plugins.ChannelUserDB):
 
     def get(self,channel,nick):
         return self[channel,self.normalizeNick(nick)]
-        
-        
+    
 class Greeter(callbacks.Plugin):
     """This plugin should greet people in channel"""
     threaded = True
+
+    class DB(plugins.DbiChannelDB):
+        class DB(dbi.DB):
+            class Record(dbi.Record):
+                __fields__ = [
+                    'op'
+                ]
 
     def __init__(self, irc):
         # these two lines necessary or goes kabloomie
         self.__parent = super(Greeter, self)
         self.__parent.__init__(irc)
         self.db = GreeterDB(filename)
+        # This relies on the database name set in the Helpers plugin.
+        self.helper_db = plugins.DB('Helpers', {'flat': self.DB})()
 
         # I should pull this out into supybot.conf
         # but nervous about having to alter the supybot.conf
@@ -94,6 +108,11 @@ class Greeter(callbacks.Plugin):
         for ignore in c4lIgnoredNicks:
             self.db.add('#code4lib', ignore)
         
+    def _get_helpers(self, channel):
+          result = [r.op for r in self.helper_db.select(channel, lambda x: True)]
+          result.sort()
+          return result        
+                
     def die(self):
         self.db.close()    
     
@@ -141,8 +160,13 @@ class Greeter(callbacks.Plugin):
                 
     def greeter(self, irc, msg, args):
         """ (add|remove) nick1 [nick2 nick3...]
-           This plugin will issue a greeting via privmesg for the first time someone joins a channel. Doing greeter add foobar would cause that nick to be added to the list of nicks to ignore. Remove command will remove them from the list of nicks to ignore.
-           If called without arguments, will send the caller the introduction message via privmesg, regardless of whether they've already been greeted.  """
+           This plugin will issue a greeting via privmsg for the first time 
+           someone joins a channel. Doing greeter add foobar causes that nick 
+           to be added to the list of nicks to ignore. Remove command removes 
+           them from the list of nicks to ignore.
+           If called without arguments, will send the caller the introduction 
+           message via privmsg, regardless of whether they've already been 
+           greeted.  """
 
         channel = msg.args[0]
         
@@ -159,7 +183,7 @@ class Greeter(callbacks.Plugin):
             irc.noReply()
 
         else:
-            # should see if htere's a way to trigger help message
+            # should see if there's a way to trigger help message
             irc.reply(" I don't understand what you are asking ")
                                 
             
@@ -170,18 +194,27 @@ class Greeter(callbacks.Plugin):
             return # It's us
 
         channel = msg.args[0]
-        if channel != "#code4lib" and channel != "#jtgtestchannel":
+        if channel != "#code4lib" and channel not in test_channels:
             return
         
         #if self.db[channel, msg.nick] is None:
         try:
             self.db.get(channel, msg.nick)
         except KeyError:
+            # The except means that we only message people not yet in the db.
             irc.queueMsg(ircmsgs.privmsg(msg.nick, joinmsg % ( irc.nick ) ))
             irc.noReply()
             #self.db.add(channel, msg.nick)
             self.db.add(channel, msg.nick) 
 
+            # Also notify the helpers privately if a potential newbie shows up,
+            # so that we can roll out the welcome mat human-style.
+            for helper in self._get_helpers(channel):
+                # Sometimes the helpers db stores blank lines, which we should
+                # ignore.
+                if helper:
+                    irc.queueMsg(ircmsgs.privmsg(helper, helpermsg % ( msg.nick ) ))
+                    irc.noReply()
             
 Class = Greeter
 

@@ -58,6 +58,8 @@ class Helpers(callbacks.Plugin):
     def __init__(self, irc):
         self.__parent = super(Helpers, self)
         self.__parent.__init__(irc)
+        # The Greeter plugin relies on this database name. If for some reason
+        # you change it here, change it there too.
         self.db = plugins.DB(self.name(), {'flat': self.DB})()
 
     def _ops(self, channel):
