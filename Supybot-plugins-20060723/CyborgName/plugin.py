@@ -45,7 +45,7 @@ class CyborgName(callbacks.Plugin):
         except utils.web.Error, e:
             irc.error(str(e))
 
-    _cyborgRe = re.compile(r'<p class="mediumheader">(.*?)</p>', re.I)
+    _cyborgRe = re.compile(r'<div class="mediumheader">(.*?)</div>', re.I)
     def cyborg(self, irc, msg, args, name):
         """[<name>]
 
