@@ -46,7 +46,7 @@ class Fixit(callbacks.Plugin):
            'hydra head', 'fulltext', 'diacritics', 'EAD',
            'Mechanical Turk', 'quine relay', 'INTERCAL', 'mesh network',
            'octothorpe', 'time machine', 'cross-connected faceplates',
-           'reverse library disintermediation'
+           'reverse library disintermediation', 'doge', 'dogecoin'
     ]
     
     def fixit(self, irc, msg, args):
