@@ -13,12 +13,13 @@ class Fixit(callbacks.Plugin):
            'visualize', 'federate', 'curate', 'gamify', 'crowdsource',
            'scale up', 'cloud-host', 'progressively enhance', 
            'open-source', 'havisham', 'refactor', 'empower',
-           'continuously deploy', 'inject', 'mock', 'BBM me',
+           'continuously deploy', 'inject', 'mock', 'BBM',
            'face-time', 'migrate', 'nextgen', 'panoramically photograph',
            'SMS', 'shibbolize', 'hack', 'munge', 'yak-shave', 'rebase',
            'polish', 'fastfail', 'serialize', 'queue up', 'shard',
            'replicate', 'index', 'transliterate', 'subclass',
-           'superclass', 'catalog', 'interleave', 'mesh', 'reverse library disintermediation'
+           'superclass', 'catalog', 'interleave', 'mesh',
+           'disintermediate'
     ]
     
     nouns = ['framework', 'html5', 'rubygem', 'shawarma', 'web app', 
@@ -44,7 +45,8 @@ class Fixit(callbacks.Plugin):
            'pumpkin patch', 'turd', 'web hook', 'callback', 'shard',
            'hydra head', 'fulltext', 'diacritics', 'EAD',
            'Mechanical Turk', 'quine relay', 'INTERCAL', 'mesh network',
-           'octothorpe', 'time machine', 'cross-connected faceplates'
+           'octothorpe', 'time machine', 'cross-connected faceplates',
+           'reverse library disintermediation'
     ]
     
     def fixit(self, irc, msg, args):
