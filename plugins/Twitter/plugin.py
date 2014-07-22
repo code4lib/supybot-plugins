@@ -64,6 +64,7 @@ class Twitter(callbacks.Plugin):
 
         self.api.update_status(tweet_text )
         irc.reply('The operation succeeded.%s' % truncate_msg)
+        irc.reply('"<bot4lib> %s"' % tweet_text)
 
     tweet = wrap(tweet, ['user','text'])
 
