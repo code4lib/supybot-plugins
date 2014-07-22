@@ -44,7 +44,7 @@ class Fixit(callbacks.Plugin):
            'pumpkin patch', 'turd', 'web hook', 'callback', 'shard',
            'hydra head', 'fulltext', 'diacritics', 'EAD',
            'Mechanical Turk', 'quine relay', 'INTERCAL', 'mesh network',
-           'octothorpe', 'time machine'
+           'octothorpe', 'time machine', 'cross-connected faceplates'
     ]
     
     def fixit(self, irc, msg, args):
