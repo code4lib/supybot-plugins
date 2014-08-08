@@ -19,7 +19,9 @@ class Fixit(callbacks.Plugin):
            'polish', 'fastfail', 'serialize', 'queue up', 'shard',
            'replicate', 'index', 'transliterate', 'subclass',
            'superclass', 'catalog', 'interleave', 'mesh',
-           'disintermediate'
+           'disintermediate','multitenancyize','dashboard','onboard',
+           'whiteboard','paper prototype','containerize','centralize',
+           'decentralize'
     ]
     
     nouns = ['framework', 'html5', 'rubygem', 'shawarma', 'web app', 
@@ -46,7 +48,10 @@ class Fixit(callbacks.Plugin):
            'hydra head', 'fulltext', 'diacritics', 'EAD',
            'Mechanical Turk', 'quine relay', 'INTERCAL', 'mesh network',
            'octothorpe', 'time machine', 'cross-connected faceplates',
-           'reverse library disintermediation', 'doge', 'dogecoin'
+           'reverse library disintermediation', 'doge', 'dogecoin',
+           'dashboard', 'punchline', 'visualization', 'encoder',
+           'transistor', 'ORM','nanotube','container','cathedral',
+           'bazaar'
     ]
     
     def fixit(self, irc, msg, args):
