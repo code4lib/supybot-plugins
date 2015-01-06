@@ -598,6 +598,10 @@ class Assorted(callbacks.Privmsg):
         irc.reply("nope", prefixNick=True)
         return
 
+    def updog(self, irc, msg, args):
+        irc.reply("not much, dog. what's up with you?", prefixNick=True)
+        return
+
     def bin2int(self, irc, msg, args, binstring):
         """
         usage: bin2int <bin>
