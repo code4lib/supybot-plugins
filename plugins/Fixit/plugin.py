@@ -21,7 +21,8 @@ class Fixit(callbacks.Plugin):
            'superclass', 'catalog', 'interleave', 'mesh',
            'disintermediate','multitenancyize','dashboard','onboard',
            'whiteboard','paper prototype','containerize','centralize',
-           'decentralize'
+           'decentralize', 'pip install', 'puppetize', 'quantize',
+           'monetize', 'pipe'
     ]
     
     nouns = ['framework', 'html5', 'rubygem', 'shawarma', 'web app', 
@@ -41,7 +42,7 @@ class Fixit(callbacks.Plugin):
            u'\xdcml\xe4\xfct', 'pip', 'AbstractSingletonProxyFactoryBean',
            'platform', 'persistent database', 'user', 'Cucumber',
            'beans', 'analytics', 'bitcoin', 'test harness', 
-           'unit tests', 'dependency', 'QR codes', 'plugin','backend',
+           'unit tests', 'dependency', 'QR codes', 'plugin', 'backend',
            'frontend','middleware','CAS', 'robots', 'robots.txt',
            'hackfest', 'encoding', 'utf8', 'MARC8', 'pumpkins', 
            'pumpkin patch', 'turd', 'web hook', 'callback', 'shard',
@@ -51,7 +52,10 @@ class Fixit(callbacks.Plugin):
            'reverse library disintermediation', 'doge', 'dogecoin',
            'dashboard', 'punchline', 'visualization', 'encoder',
            'transistor', 'ORM','nanotube','container','cathedral',
-           'bazaar'
+           'bazaar', 'emoji', 'devops', 'puppet', 'chef', 'ansible',
+           'docker', 'engagement', 'brand', 'self-driving car',
+           'MongoDB', 'CouchDB', 'NoSQL', 'SPARQL', 'brony',
+           'magical SPARQLpony', 'octocat', 'antipattern'
     ]
     
     def fixit(self, irc, msg, args):
