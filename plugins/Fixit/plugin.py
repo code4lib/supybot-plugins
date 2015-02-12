@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from supybot.commands import *
 from random import choice
 import supybot.callbacks as callbacks
