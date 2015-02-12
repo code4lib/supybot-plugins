@@ -55,7 +55,8 @@ class Fixit(callbacks.Plugin):
            'bazaar', 'emoji', 'devops', 'puppet', 'chef', 'ansible',
            'docker', 'engagement', 'brand', 'self-driving car',
            'MongoDB', 'CouchDB', 'NoSQL', 'SPARQL', 'brony',
-           'magical SPARQLpony', 'octocat', 'antipattern', 'haddock'
+           'magical SPARQLpony', 'octocat', 'antipattern', 'haddock',
+           u'Heiðrún'
     ]
     
     def fixit(self, irc, msg, args):
