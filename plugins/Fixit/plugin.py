@@ -61,38 +61,62 @@ class Fixit(callbacks.Plugin):
     ]
     
     def fixit(self, irc, msg, args):
-      """
-      Get advice for solving your intractable tech problems.
-      """
-      
-      verb = choice(self.verbs)
-      object = choice(self.nouns)
-      tool = choice(self.nouns)
-      advice = "Just "+verb+" the "+object+" with your "+tool+"."
-      irc.reply(advice, prefixNick=True)
+        """
+        Get advice for solving your intractable tech problems.
+        """
+        
+        verb = choice(self.verbs)
+        object = choice(self.nouns)
+        tool = choice(self.nouns)
+        advice = "Just "+verb+" the "+object+" with your "+tool+"."
+        irc.reply(advice, prefixNick=True)
 
     def mynewstartup(self, irc, msg, args, who):
-      """
-      Your new business plan.  It is genius.  It cannot fail.
-      """
-      
-      if who is None:
-        owner = "Your"
-      else:
-        owner = "%s's" % who
+        """
+        Your new business plan.  It is genius.  It cannot fail.
+        """
+        
+        if who is None:
+            owner = "Your"
+        else:
+            owner = "%s's" % who
 
-      verb = choice(self.verbs)
-      simile = choice(self.nouns)
-      awesomesauce = choice(self.nouns)
-      
-      if simile[0] in ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']:
-        article = " an "
-      else:
-        article = " a "
-      genius_plan = "%s new startup? It's like%s%s, but you %s it with your %s" % (owner, article, simile, verb, awesomesauce)
-      irc.reply(genius_plan, prefixNick=True)
+        verb = choice(self.verbs)
+        simile = choice(self.nouns)
+        awesomesauce = choice(self.nouns)
+        
+        if simile[0] in ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']:
+          article = " an "
+        else:
+          article = " a "
+        genius_plan = "%s new startup? It's like%s%s, but you %s it with your %s" % (owner, article, simile, verb, awesomesauce)
+        irc.reply(genius_plan, prefixNick=True)
+
+    def notmycircus(self, irc, msg, args, who):
+        """
+        Not your circus, not your monkeys.
+        """
+        if who is None:
+            owner = "your"
+            prefix = True
+        else:
+            owner = "%s's" % who
+            prefix = False
+
+        noun1 = choice(self.nouns)
+        noun2 = choice(self.nouns)
+
+        # dubious pluralization rule
+        if noun2[-1] != 's':
+            noun2 = noun2 + 's'
+
+        relief = u"Not %s %s, not %s %s." % (owner, noun1, owner, noun2)
+        irc.reply(relief, prefixNick=prefix)
 
     mynewstartup = wrap(mynewstartup, [ optional('text') ])
     startup = mynewstartup
-    
+
+    notmycircus = wrap(notmycircus, [ optional('text') ])
+    circus = notmycircus
+
 Class = Fixit
