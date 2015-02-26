@@ -66,9 +66,9 @@ conf.registerGlobalValue(Insult, 'nouns',
     """Determines the base set of words used as the pool for nouns."""))
 conf.registerGlobalValue(Insult, 'foulNouns',
     registry.SpaceSeparatedListOfStrings( ['chicken piss', 'dog vomit',
-    'dung', 'fat woman\'s stomach-bile', 'guano', 'dog balls', 'seagull puke',
+    'dung', 'stomach-bile', 'guano', 'dog balls', 'seagull puke',
     'cat bladders', 'pus', 'urine samples', 'snake assholes', 'rat-farts',
-    'slurpee-backwash', 'jizzum', 'anal warts'],
+    'slurpee-backwash', 'anal warts'],
     """Determines the set of foul words added to the pool of nouns."""))
 conf.registerGlobalValue(Insult, 'amounts',
     registry.SpaceSeparatedListOfStrings(['accumulation', 'bucket', 'gob',
