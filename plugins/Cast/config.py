@@ -45,6 +45,6 @@ Cast = conf.registerPlugin('Cast')
 # conf.registerGlobalValue(Cast, 'someConfigVariableName',
 #     registry.Boolean(False, """Help for someConfigVariableName."""))
 
-conf.registerGlobalValue(Cast, 'FreebaseAPIKey', registry.String(False, """Freebase API Key"""))
+conf.registerGlobalValue(Cast, 'FreebaseAPIKey', registry.String("", """Freebase API Key"""))
 
 # vim:set shiftwidth=4 tabstop=4 expandtab textwidth=79:
