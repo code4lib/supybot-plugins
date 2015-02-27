@@ -1072,7 +1072,7 @@ class Assorted(callbacks.Privmsg):
         rows = soup.findAll('tr')[1:]
         teas = [t.a for t in rows]
         tea = teas[randint(0, len(teas)-1)]
-        tea_name = tea.string
+        tea_name = tea.string.encode('utf-8')
         tea_url = "http://ratetea.com" + tea['href']
         if len(args) > 0:
             nick = ' '.join(args)
