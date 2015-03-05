@@ -31,12 +31,11 @@ import sheendata
 class PollNotFoundException(Exception):
     pass
 
-
 class Assorted(callbacks.Privmsg):
 
     def devil(self,irc,msg,args):
         """fetch a random entry from the devil's dictionary at
-        http://www.eod.com/devil/archive/ 
+        http://www.eod.com/devil/archive/
         """
         base = 'http://www.eod.com'
         ns = 'http://www.w3.org/1999/xhtml'
@@ -57,7 +56,6 @@ class Assorted(callbacks.Privmsg):
         paras = tree.findall('.//{%(ns)s}blockquote/{%(ns)s}p' % {'ns': ns})
         irc.reply("%s - %s" % (word, paras[0].text.encode('utf8','ignore')))
 
-
     def underbelly(self,irc,msg,args):
         """access2005 podcast downloads today
         """
@@ -75,12 +73,12 @@ class Assorted(callbacks.Privmsg):
         """
         results = self.get_votes(150)
         irc.reply('; '.join(results).encode('utf8'))
-    
+
     def tshirters(self,irc,msg,args):
         """code4libcon 2007 tshirt voters
         """
         results = self.get_voters(150)
-        irc.reply(("[%i voters] " % len(results)) + 
+        irc.reply(("[%i voters] " % len(results)) +
             '; '.join(results).encode('utf8'))
 
     def hosts2008(self,irc,msg,args):
@@ -88,14 +86,14 @@ class Assorted(callbacks.Privmsg):
         """
         results = self.get_votes(164)
         irc.reply('; '.join(results).encode('utf8', 'ignore'))
-    
+
     def hosters(self,irc,msg,args):
         """code4libcon 2008 host site voters
         """
         results = self.get_voters(164)
-        irc.reply(("[%i voters] " % len(results)) + 
+        irc.reply(("[%i voters] " % len(results)) +
             '; '.join(results).encode('utf8'))
- 
+
     def votes2007(self,irc,msg,args):
         """polls code4libcon 2007 votes
         """
@@ -103,7 +101,7 @@ class Assorted(callbacks.Privmsg):
         irc.reply('; '.join(results).encode('utf8'))
 
 #    def keynotes2013(self,irc,msg,args):
-#      """votes for the 2011 code4libcon keynote 
+#      """votes for the 2011 code4libcon keynote
 #      """
 #      keynotes = [
 #        "Estelle Getty", "Sylvester Stallone", "Yngwie Malmsteen",
@@ -121,8 +119,8 @@ class Assorted(callbacks.Privmsg):
 #      irc.reply('; '.join(msg))
 
     def hosts2013(self,irc,msg,args):
-      """ 
-      Shows votes for the next code4libcon. Courtesy of 
+      """
+      Shows votes for the next code4libcon. Courtesy of
       http://www.floydpinkerton.net/fun/citynames.html
       """
       places = [
@@ -149,18 +147,18 @@ class Assorted(callbacks.Privmsg):
         "Cold Water, Mississippi", "King Arthur's Court, Michigan", "Uncertain, Texas",
         "Cut-Off, Louisiana", "Koopa, Colorado", "Yazoo, Mississippi",
         "Dickeyville, Wisconsin", "Lawyersville, New York", "Yeehaw Junction, Florida",
-        "Ding Dong, Texas", "Lollipop, Texas", 
-        "Disco, Tennessee", "Love Ladies, New Jersey", 
-        "Dismal, Tennessee", "Magazine, Arkansas", 
-        "Dry Fork, Wyoming", "Mars, Pennsylvania", 
-        "Eclectic, Alabama", "Monkey's Elbow, Kentucky", 
-        "Eek, Alaska", "Muck City, Alabama", 
+        "Ding Dong, Texas", "Lollipop, Texas",
+        "Disco, Tennessee", "Love Ladies, New Jersey",
+        "Dismal, Tennessee", "Magazine, Arkansas",
+        "Dry Fork, Wyoming", "Mars, Pennsylvania",
+        "Eclectic, Alabama", "Monkey's Elbow, Kentucky",
+        "Eek, Alaska", "Muck City, Alabama",
         "Embarrass, Minnesota", "No Name, Colorado",
         "Gross, Nebraska", "Leaksville-Spray, North Carolina",
         "Poison, Montana", "Dingle, Idaho", "Liberal, Kansas",
       ]
       def rand_places(num, seen=None):
-        if seen == None: 
+        if seen == None:
           seen = []
         if num == 0:
           return []
@@ -210,7 +208,7 @@ class Assorted(callbacks.Privmsg):
         soup = BeautifulSoup(html)
         luther = soup.find("p", {"class": "larger"})
         irc.reply(luther.string.encode('utf8'))
-        
+
     def foodholiday(self, irc, msg, args):
         datestring = time.strftime('%B %d', time.localtime())
         datere = re.compile('^'+datestring+'\\b')
@@ -223,7 +221,7 @@ class Assorted(callbacks.Privmsg):
         else:
           response = "No food holidays found for %s" % datestring
         irc.reply(response)
-      
+
     def penny(self, irc, msg, args):
         html = urlopen("http://www.penny-arcade.com/archive/").read()
         soup = BeautifulSoup(html)
@@ -241,7 +239,7 @@ class Assorted(callbacks.Privmsg):
             links.append(td.a['href'])
         comic = links[randint(0, len(links))]
         irc.reply("http://www.penny-arcade.com" + comic)
-	
+
     def wine(self, irc, msg, args):
         """
         Wine from 2010 wines of the year list
@@ -260,22 +258,20 @@ class Assorted(callbacks.Privmsg):
             nick = msg.nick
         irc.reply("fills a glass with %s for %s (%s)" % (wine[1], nick, wine[0]), action=True)
 
-
     def runoffers(self,irc,msg,args):
         """code4libcon 2007 runoff voters
         """
         results = self.get_voters(122)
-        irc.reply(("[%i voters] " % len(results)) + 
+        irc.reply(("[%i voters] " % len(results)) +
             '; '.join(results).encode('utf8'))
-
 
     def voters2007(self,irc,msg,args):
         """code4libcon 2007 voters
         """
         results = self.get_voters(120)
-        irc.reply(("[%i voters] " % len(results)) + 
+        irc.reply(("[%i voters] " % len(results)) +
             '; '.join(results).encode('utf8'))
-     
+
     def get_voters(self, node_id):
         json = urlopen("http://code4lib.org/voters.php?node_id=%d" % node_id).read()
         results = []
@@ -354,7 +350,7 @@ class Assorted(callbacks.Privmsg):
         for name in list:
             names.append(name.text)
         irc.reply(names.pop())
- 
+
     def gc(self,irc,msg,args):
         """google count
         """
@@ -379,7 +375,6 @@ class Assorted(callbacks.Privmsg):
         dev = ', '.join(["%s:%d" % (attr, self.dnd_attr()) for attr in attrs])
         irc.reply(dev)
 
-
     def gamma(self,irc,msg,args):
         """generate a gamma world character"""
         attrs = ['Charisma', 'Constitution', 'Dexterity','Intelligence','Mental Strength','Physical Strength']
@@ -390,15 +385,15 @@ class Assorted(callbacks.Privmsg):
         """get a d&d character
         """
         irc.reply("strength:%d dexterity:%d constitution:%d intelligence:%d wisdom:%d charisma:%d" % tuple([self.dnd_attr() for i in range(6)]))
-    
+
     def roll(self, s):
         times, die = map(int, s.split('d'))
         return [randint(1, die) for i in range(times)]
- 
+
     def drop_lowest(self, rolls):
         rolls.remove(min(rolls))
         return rolls
- 
+
     def dnd_attr(self):
         return sum(self.drop_lowest(self.roll('4d6')))
 
@@ -445,7 +440,7 @@ class Assorted(callbacks.Privmsg):
         if len(args) == 0:
             irc.reply("usage: library [institution_name] [city state [country]]")
             return
-       
+
         if len(args) == 1:
             query['Quick'] = args[0]
         elif len(args) == 2:
@@ -456,7 +451,7 @@ class Assorted(callbacks.Privmsg):
 
         url = search_url + '?' + urlencode(query)
         hits = TidyHTMLTreeBuilder.parse(urlopen(url))
-  
+
         results = []
         for p in hits.findall('.//{http://www.w3.org/1999/xhtml}p'):
             if p.attrib.get('class') == 'listing':
@@ -475,7 +470,7 @@ class Assorted(callbacks.Privmsg):
         return text
 
     def lurkers(self,irc,msg,args):
-        """see who looked at the irc-logs on the web today. use 'all' if 
+        """see who looked at the irc-logs on the web today. use 'all' if
         you want to see non-resolvable ip addresses
         """
         include_ips = False
@@ -525,7 +520,7 @@ class Assorted(callbacks.Privmsg):
         link = link_elem['href'].replace('&amp;', '&')
 
         irc.reply(("%s : %s <http://en.wikipedia.org%s>" % (title, text, link)).encode('utf-8'))
-        
+
     def hillary(self,irc,msg,args):
         url = 'http://www.hillaryismomjeans.com/'
         ua = 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.11) Gecko/20071204 Ubuntu/7.10 (gutsy) Firefox/2.0.0.11'
@@ -558,7 +553,7 @@ class Assorted(callbacks.Privmsg):
         html_str = html.read()
         soup = BeautifulSoup(html_str)
         irc.reply(soup.find('h2').string.strip().upper())
-    
+
     def wodehouse(self,irc,msg,args):
         """grabs a p.g. wodehouse quote from http://www.drones.com/pgw.cgi"""
         url = 'http://www.drones.com/pgw.cgi'
@@ -646,13 +641,13 @@ class Assorted(callbacks.Privmsg):
     def hero(self, irc, msg, args, opts, nick):
         """[--sex <male|female|neuter>] [--powers <1..15>] [name] - Generate some random superhero powers
         from http://www.rps.net/cgi-bin/stone/randpower.pl"""
-        sexes = { 'male': 0, 'female': 1, 'neuter': 2 }        
+        sexes = { 'male': 0, 'female': 1, 'neuter': 2 }
         if not nick:
           nick = msg.nick
 
         sex = 0
         powers = 0
-        
+
         for (opt, arg) in opts:
             if opt == 'sex':
                 try:
@@ -661,7 +656,7 @@ class Assorted(callbacks.Privmsg):
                   sex = 0
             if opt == 'powers':
                 powers = arg
-          
+
         if powers > 15:
           irc.error('Maximum of 15 powers allowed.')
         else:
@@ -761,10 +756,10 @@ class Assorted(callbacks.Privmsg):
         irc.reply(" > n <  ", prefixNick=False)
         irc.reply("        ", prefixNick=False)
         irc.reply("  NO    ", prefixNick=False)
-      
+
     def stab(self, irc, msg, args):
       irc.reply("o()xxxx[{::::::*" + ' '.join(args) + "*::::::>", prefixNick=False)
-       
+
     def halfbaked(self, irc, msg, args):
         """
         returns a radom half-baked idea from http://halfbakery.com
@@ -820,7 +815,7 @@ class Assorted(callbacks.Privmsg):
           format = formats[args[0].lower()[0:3]]
         except:
           format = formats['def']
-        
+
         # TODO: make this so you can use an ticker
         try:
 	    soup = self._url2soup("http://finance.google.com/finance?cid=%s" % cid)
@@ -929,7 +924,7 @@ class Assorted(callbacks.Privmsg):
         tags = simplejson.loads(json)
         result = ', '.join(tags['results'])
         irc.reply(result)
-    
+
     def flu(self, irc, msg, args, loc):
         """
         Estimate of flu search activity for a given region or location. --
@@ -964,7 +959,7 @@ class Assorted(callbacks.Privmsg):
             resp = "As of %s the flu search activity index for %s was %s; trend is %s" \
                 % (data[-1][0], loc, latest[loc.lower()], trend)
             irc.reply(resp)
-    
+
     flu = wrap(flu, ['text'])
 
     def orsome(self, irc, msg, args, splitter, s):
@@ -976,7 +971,7 @@ class Assorted(callbacks.Privmsg):
         else:
             items = [x.strip() for x in re.split('\s+', s) if len(x)]
         irc.reply(' or '.join(items), prefixNick=False)
-         
+
     orsome = wrap(orsome, [optional('regexpMatcher'), 'text'])
 
     def decide(self, irc, msg, args, opts, choices):
@@ -984,7 +979,7 @@ class Assorted(callbacks.Privmsg):
         for opt,arg in opts:
           if opt == 'raw':
             prefix = ""
-            
+
         seed(choices)
 
         pattern = re.compile('\s+or\s+', re.I)
@@ -1007,7 +1002,7 @@ class Assorted(callbacks.Privmsg):
         name = 'You'
       elif re.match('You',name,re.I):
         name = 'I'
-        
+
       if randint(0, 10) == 0:
           irc.reply("That's a tough one...")
           return
@@ -1017,12 +1012,12 @@ class Assorted(callbacks.Privmsg):
       action = random.choice(clist)
       response = "%s should %s%s." % (name, adverb, action)
       irc.reply(response)
-      
+
     should = wrap(should, ['somethingWithoutSpaces','text'])
-      
+
     def pick(self, irc, msg, args, choices):
     	"""
-    	@decide without the niceties 
+    	@decide without the niceties
     	"""
         pattern = re.compile('\s+or\s+', re.I)
         clist = re.split(pattern, choices)
@@ -1068,8 +1063,6 @@ class Assorted(callbacks.Privmsg):
             nick = msg.nick
         irc.reply("brews and pours a cup of %s, and sends it sliding down the bar to %s" % (coffee, nick), action=True)
 
-
-
     def tea(self, irc, msg, args):
         """
         makes and pours a sensational cup of tea from the highest rated
@@ -1079,7 +1072,7 @@ class Assorted(callbacks.Privmsg):
         rows = soup.findAll('tr')[1:]
         teas = [t.a for t in rows]
         tea = teas[randint(0, len(teas)-1)]
-        tea_name = tea.string 
+        tea_name = tea.string
         tea_url = "http://ratetea.com" + tea['href']
         if len(args) > 0:
             nick = ' '.join(args)
@@ -1127,15 +1120,15 @@ class Assorted(callbacks.Privmsg):
         nick = msg.nick
       irc.reply("pours a shot of %s and sends it sliding down the bar to %s (http://whisky.com/%s)" % (order[1], nick, order[0]), action=True)
 
-    whiskey = whisky  
-    
+    whiskey = whisky
+
     def swill(self, irc, msg, args):
       """
       pours...something else.
       """
       catalog = [
-        ["forty of", ["Colt 45", "Camo 40", "Black Fist", "Country Club", "Olde English 800", "Mickey's", "Black Bull", 
-          "Labatt Blue Dry 7.1", "WildCat", "Molson Dry 6.5/7.5/8.5/10.1", "Private Stock", "Big Bear", "St. Ides", 
+        ["forty of", ["Colt 45", "Camo 40", "Black Fist", "Country Club", "Olde English 800", "Mickey's", "Black Bull",
+          "Labatt Blue Dry 7.1", "WildCat", "Molson Dry 6.5/7.5/8.5/10.1", "Private Stock", "Big Bear", "St. Ides",
           "Steel Reserve 211", "B40 Bull Max", "King Cobra", "Jeremiah Weed", "Hurricane"]],
         ["bottle of", ["Zima", "Extra Dry Champale", "Pink Champale", "Golden Champale", "Night Train", "MD 20/20", "Thunderbird", "Wild Irish Rose", "Cisco Red"]],
         ["can of Sparks", ["", "Light","Plus","Red","Stinger"]],
@@ -1152,7 +1145,7 @@ class Assorted(callbacks.Privmsg):
         nick = msg.nick
       order = menu[randint(0, len(menu)-1)]
       irc.reply("grabs a %s and sends it sliding down the bar to %s" % (order, nick), action=True)
-      
+
     def anon(self, irc, msg, args):
         """
         Spits out random nonsense from 'anon,' that loveable idiot of a troll
@@ -1200,8 +1193,9 @@ class Assorted(callbacks.Privmsg):
                         '2011': '18'},
             'hosts': {'2009': '3',
                       '2010': '9',
-                      '2011': '15'},
-            'talks': {'2008': '2', 
+                      '2011': '15',
+                      '2016': '37'},
+            'talks': {'2008': '2',
                       '2009': '7',
                       '2010': '13',
                       '2011': '17',
@@ -1216,7 +1210,7 @@ class Assorted(callbacks.Privmsg):
         except KeyError:
             raise PollNotFoundException("tally or year not found")
         poll_url = base_url + 'results/' + poll_number
-        vote_url = base_url + poll_number 
+        vote_url = base_url + poll_number
         from socket import setdefaulttimeout
         setdefaulttimeout(60)
         print poll_url
@@ -1233,8 +1227,19 @@ class Assorted(callbacks.Privmsg):
         tallies = [(vote['title'], vote['score']) for vote in votes]
         return tallies, vote_url
 
+    def hosts2016(self, irc, msg, args):
+        """
+        Gets tally of host votes for 2016 conference
+        """
+        try:
+            tallies, vote_url = self._diebold_tallies("hosts", "2016")
+        except PollNotFoundException, pnfe:
+            irc.reply("Poll not found for hosts in 2016: %s" % pnfe)
+        else:
+            irc.reply(('; '.join("%s [%s]" % t for t in tallies)).encode('utf-8'))
+
     def talks2015(self, irc, msg, args):
-        """ 
+        """
         Gets tally of talk votes for 2014 conference
         """
         try:
@@ -1245,9 +1250,8 @@ class Assorted(callbacks.Privmsg):
             irc.reply(('; '.join("%s [%s]" % t for t in tallies)).encode('utf-8'))
             irc.reply("Voting link: %s" % vote_url)
 
-
     def talks2014(self, irc, msg, args):
-        """ 
+        """
         Gets tally of talk votes for 2014 conference
         """
         try:
@@ -1259,7 +1263,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply("Voting link: %s" % vote_url)
 
     def talks2013(self, irc, msg, args):
-        """ 
+        """
         Gets tally of talk votes for 2013 conference
         """
         try:
@@ -1271,7 +1275,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply("Voting link: %s" % vote_url)
 
     def talks2012(self, irc, msg, args):
-        """ 
+        """
         Gets tally of talk votes for 2012 conference
         """
         try:
@@ -1283,7 +1287,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply("Voting link: %s" % vote_url)
 
     def talks2011(self, irc, msg, args):
-        """ 
+        """
         Gets tally of talk votes for 2011 conference
         """
         try:
@@ -1295,7 +1299,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply("Voting link: %s" % vote_url)
 
     def talks2010(self, irc, msg, args):
-        """ 
+        """
         Gets tally of talk votes for 2010 conference
         """
         try:
@@ -1306,7 +1310,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply(('; '.join("%s [%s]" % t for t in tallies)).encode('utf-8'))
 
     def talks2009(self, irc, msg, args):
-        """ 
+        """
         Gets tally of talk votes for 2009 conference
         """
         try:
@@ -1317,7 +1321,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply(('; '.join("%s [%s]" % t for t in tallies)).encode('utf-8'))
 
     def tshirts2009(self, irc, msg, args):
-        """ 
+        """
         Gets tally of t-shirt votes for 2009 conference
         """
         try:
@@ -1328,7 +1332,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply(('; '.join("%s [%s]" % t for t in tallies)).encode('utf-8'))
 
     def tshirts2010(self, irc, msg, args):
-        """ 
+        """
         Gets tally of t-shirt votes for 2010 conference
         """
         try:
@@ -1339,7 +1343,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply(('; '.join("%s [%s]" % t for t in tallies)).encode('utf-8'))
 
     def tshirts2011(self, irc, msg, args):
-        """ 
+        """
         Gets tally of t-shirt votes for 2011 conference
         """
         try:
@@ -1350,7 +1354,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply(('; '.join("%s [%s]" % t for t in tallies)).encode('utf-8'))
 
     def bubble2009(self, irc, msg, args):
-        """ 
+        """
         List talks that are within 4 ranks of the cutoff range for the 2009 conference
         """
         cutoff = 22
@@ -1362,7 +1366,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply(('; '.join("%s [%s]" % t for t in tallies[cutoff-3:cutoff+2])).encode('utf-8'))
 
     def talks2008(self, irc, msg, args):
-        """ 
+        """
         Gets tally of talk votes for 2008 conference
         """
         try:
@@ -1372,9 +1376,8 @@ class Assorted(callbacks.Privmsg):
         else:
             irc.reply(('; '.join("%s [%s]" % t for t in tallies)).encode('utf-8'))
 
-
     def logo2008(self, irc, msg, args):
-        """ 
+        """
         Gets tally of logo votes for 2008
         """
         try:
@@ -1385,7 +1388,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply(('; '.join("%s [%s]" % t for t in tallies)).encode('utf-8'))
 
     def hosts2009(self, irc, msg, args):
-        """ 
+        """
         Gets tally of host votes for 2009 conference
         """
         try:
@@ -1396,7 +1399,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply(('; '.join("%s [%s]" % t for t in tallies)).encode('utf-8'))
 
     def hosts2010(self, irc, msg, args):
-        """ 
+        """
         Gets tally of host votes for 2010 conference
         """
         try:
@@ -1407,7 +1410,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply(('; '.join("%s [%s]" % t for t in tallies)).encode('utf-8'))
 
     def hosts2011(self, irc, msg, args):
-        """ 
+        """
         Gets tally of host votes for 2011 conference
         """
         try:
@@ -1424,7 +1427,7 @@ class Assorted(callbacks.Privmsg):
         irc.reply("Seattle [*]")
 
     def keynotes2009(self, irc, msg, args):
-        """ 
+        """
         Gets tally of keynoter votes for 2009 conference
         """
         try:
@@ -1435,7 +1438,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply(('; '.join("%s [%s]" % t for t in tallies)).encode('utf-8'))
 
     def keynotes2010(self, irc, msg, args):
-        """ 
+        """
         Gets tally of keynoter votes for 2010 conference
         """
         try:
@@ -1446,7 +1449,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply(('; '.join("%s [%s]" % t for t in tallies)).encode('utf-8'))
 
     def keynotes2011(self, irc, msg, args):
-        """ 
+        """
         Gets tally of keynoter votes for 2011 conference
         """
         try:
@@ -1458,7 +1461,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply("Have you voted? %s" % vote_url)
 
     def keynotes2012(self, irc, msg, args):
-        """ 
+        """
         Gets tally of keynoter votes for 2012 conference
         """
         try:
@@ -1470,7 +1473,7 @@ class Assorted(callbacks.Privmsg):
             irc.reply("Have you voted? %s" % vote_url)
 
     def keynotes2013(self, irc, msg, args):
-        """ 
+        """
         Gets tally of keynoter votes for 2012 conference
         """
         try:
@@ -1483,7 +1486,7 @@ class Assorted(callbacks.Privmsg):
 
     #def hosts2013(self, irc, msg, args):
     #  irc.reply("I'm sorry. That request involves dates after December 21, 2012, and is therefore not worth any of my precious remaining time.")
-      
+
     #talks2013 = keynotes2013 = tshirts2013 = hosts2013
 
     def once(self, irc, msg, args, s):
@@ -1505,8 +1508,8 @@ class Assorted(callbacks.Privmsg):
     cluephone = wrap(cluephone, ['text'])
 
     def necode4lib(self, irc, msg, args):
-        """ 
-        Gets tally of location votes for 2008 New England code4lib conference 
+        """
+        Gets tally of location votes for 2008 New England code4lib conference
         """
         try:
             tallies, vote_url = self._diebold_tallies("necode4lib", "2008")
@@ -1556,7 +1559,7 @@ class Assorted(callbacks.Privmsg):
     def slowclap(self, irc, msg, args):
         """
         Show your heartfelt appreciation (or mockery) of an
-        underdog who surprises everyone with his or her 
+        underdog who surprises everyone with his or her
         classiness, gumption and/or dancing ability
         """
         irc.reply("*clap*", prefixNick=False)
@@ -1566,7 +1569,7 @@ class Assorted(callbacks.Privmsg):
         irc.reply("*clap*", prefixNick=False)
         time.sleep(1)
         irc.reply("*clap*", prefixNick=False)
-    
+
     def excuse(self, irc, msg, args):
         """
         returns the excuse of the day  http://meyerweb.com/feeds/excuse/
@@ -1585,7 +1588,7 @@ class Assorted(callbacks.Privmsg):
             return
 
         excuseNode = tree.find(xpathLite)
-        
+
         excuseStr = excuseNode.text
         irc.reply('My excuse for today is "%s"' % excuseStr, prefixNick=True)
 
@@ -1611,7 +1614,7 @@ class Assorted(callbacks.Privmsg):
 
     def tdih(self, irc, msg, args):
         """
-        Get a piece of computing history from http://www.computerhistory.org/tdih. 
+        Get a piece of computing history from http://www.computerhistory.org/tdih.
         """
         url = 'http://www.computerhistory.org/tdih'
         soup = self._url2soup(url)
@@ -1630,25 +1633,25 @@ class Assorted(callbacks.Privmsg):
 
     def snow(self, irc, msg, args):
         flake = """
-           o      
-      o    :    o 
-        '.\'/.'   
-        :->@<-:   
-        .'/.\'.   
-      o    :    o 
-           o    
+           o
+      o    :    o
+        '.\'/.'
+        :->@<-:
+        .'/.\'.
+      o    :    o
+           o
         """
         for line in flake.split("\n"):
-            if line: 
+            if line:
                 irc.reply(line, prefixNick=False)
 
     def pony(self, irc, msg, args, who):
         """
         zOMG PONieZ!!
         """
-        pony = """      ,//) 
-    ,;;' \ 
-  ,;;' ( '\ 
+        pony = """      ,//)
+    ,;;' \
+  ,;;' ( '\
       / '\_)"""
         if who:
             who = who + "'s"
@@ -1656,7 +1659,7 @@ class Assorted(callbacks.Privmsg):
             who = 'yours'
 
         for line in pony.split("\n"):
-            if line: 
+            if line:
                 irc.reply(line, prefixNick=False)
         resp = '^^ not %s' % who
         irc.reply(resp, prefixNick=False)
@@ -1688,11 +1691,11 @@ class Assorted(callbacks.Privmsg):
     def _personalize(self,matchobj):
       replacements = { 'your': 'my', 'my': 'your', 'you': 'me', 'me': 'you' }
       return replacements[matchobj.group(0)]
-      
+
     def who(self, irc, msg, args, channel, question):
       """[<channel>] <question>
 
-      Answers <question> with a random nick from <channel>.  <channel> is only 
+      Answers <question> with a random nick from <channel>.  <channel> is only
       necessary if the message isn't sent in the channel itself.
       """
       subject = self._random_nick(irc, msg, args, channel)
@@ -1701,7 +1704,7 @@ class Assorted(callbacks.Privmsg):
       predicate = re.sub("\\$whose",subject + "'s",predicate)
       predicate = re.sub("\\$who",subject,predicate)
       irc.reply("%s %s." % (subject, predicate), prefixNick=False)
-      
+
     who = wrap(who, ['inChannel', 'text'])
 
     def whose(self, irc, msg, args, channel, question):
@@ -1711,13 +1714,13 @@ class Assorted(callbacks.Privmsg):
       predicate = re.sub("\\$whose",subject + "'s",predicate)
       predicate = re.sub("\\$who",subject,predicate)
       irc.reply("%s's %s" % (subject, predicate), prefixNick=False)
-      
+
     whose = wrap(whose, ['inChannel', 'text'])
 
     def compliment(self, irc, msg, args, who):
         """[<who>]
-        
-        Delivers surreal compliments from the The Surrealist Compliment Generator 
+
+        Delivers surreal compliments from the The Surrealist Compliment Generator
         (http://madsci.org/cgi-bin/cgiwrap/~lynn/jardin/SCG)
         """
         url = 'http://madsci.org/cgi-bin/cgiwrap/~lynn/jardin/SCG'
@@ -1767,12 +1770,12 @@ class Assorted(callbacks.Privmsg):
         groups[randint(0,1)].append(nick)
       irc.reply('FACES: ' + ', '.join(groups[0]), prefixNick=False)
       irc.reply('HEELS: ' + ', '.join(groups[1]), prefixNick=False)
-      
+
     kayfabe = wrap(kayfabe, ['inChannel'])
 
     def shake(self, irc, msg, args, who):
         """[<who>]
-        
+
         Deliver a Shakespearean insult (from http://www.pangloss.com/seidel/Shaker/index.html)"""
         text = None
         while text == None:
@@ -1786,7 +1789,7 @@ class Assorted(callbacks.Privmsg):
             attribution = soup.find('b')
             if attribution != None:
                 text += " [%s]" % attribution.string
-            
+
         if who is None:
           irc.reply(text, prefixNick=True)
         else:
@@ -1795,7 +1798,7 @@ class Assorted(callbacks.Privmsg):
 
     def professor(self, irc, msg, args, first, last):
         """<first_name> <last_name>
-        
+
         Generate your Professor Poopypants name"""
         f1 = {'A': 'poopsie', 'B': 'lumpy', 'C': 'buttercup', 'D': 'gidget', 'E': 'crusty', 'F': 'greasy', 'G': 'fluffy', 'H': 'cheeseball', 'I': 'chim-chim', 'J': 'stinky', 'K': 'flunky', 'L': 'boobie', 'M': 'pinky', 'N': 'zippy', 'O': 'goober', 'P': 'doofus', 'Q': 'slimy', 'R': 'loopy', 'S': 'snotty', 'T': 'tulefel', 'U': 'dorkey', 'V': 'squeezit', 'W': 'oprah', 'X': 'skipper', 'Y': 'dinky', 'Z': 'zsa-zsa'}
         l1 = {'A': 'apple', 'B': 'toilet', 'C': 'giggle', 'D': 'burger', 'E': 'girdle', 'F': 'barf', 'G': 'lizard', 'H': 'waffle', 'I': 'cootie', 'J': 'monkey', 'K': 'potty', 'L': 'liver', 'M': 'banana', 'N': 'rhino', 'O': 'bubble', 'P': 'hamster', 'Q': 'toad', 'R': 'gizzard', 'S': 'pizza', 'T': 'gerbil', 'U': 'chicken', 'V': 'pickle', 'W': 'chuckle', 'X': 'tofu', 'Y': 'gorilla', 'Z': 'stinker'}
@@ -1816,7 +1819,7 @@ class Assorted(callbacks.Privmsg):
       facts = soup.findAll('div',{'class' : 'views-field-title'})
       fact = (''.join(facts[randint(0,len(facts)-1)].findAll('a',text=True))).strip()
       irc.reply(fact.encode('utf-8'), prefixNick=True)
-      
+
     def arch(self, irc, msg, args, thing):
         """THE ARCHITECT SAYS THINGS"""
         if thing is None:
@@ -1837,16 +1840,16 @@ class Assorted(callbacks.Privmsg):
         data = simplejson.load(opener.open('http://pacgenerator.sunlightfoundation.com/generate'))
         pacname = data['superpac']['name']
         irc.reply(pacname.encode('utf-8', 'ignore'))
-    
+
     def redact(self, irc, msg, args, opts, text):
       """--chance [num]
-      
+
       Randomly redact a piece of text, blacking out 1 in <chance> non-stopwords. (Default: 1 in 4)"""
       chance = 4
       for (opt, arg) in opts:
           if opt == 'chance':
               chance = arg
-              
+
       stop_words = ['a','able','about','across','after','all','almost','also','am','among','an',
         'and','any','are','as','at','be','because','been','but','by','can','cannot',
         'could','dear','did','do','does','either','else','ever','every','for','from',
@@ -1873,17 +1876,17 @@ class Assorted(callbacks.Privmsg):
       if len(response['responseData']['results']) == 0:
         response['responseData']['cursor']['estimatedResultCount'] = 0
       return response
-    
+
     def intensify(self, irc, msg, args, opts, adjective):
       """[--graph|--raw] [(--prefix|--suffix) <phrase>...] <adjective>
-      
+
       Calculate the frequency with which <adjective> is intensified as described in http://xkcd.com/798/
       (--raw: show raw counts; --graph: display as a lame graph; --prefix/--suffix: use custom intensifiers)"""
-      
+
       graph = False
       raw = False
       intensifiers = []
-  
+
       for (opt,arg) in opts:
           if opt == 'prefix':
             intensifiers.append(arg + ' %s')
@@ -1896,8 +1899,8 @@ class Assorted(callbacks.Privmsg):
 
       if len(intensifiers) == 0:
         intensifiers = ['fucking %s','%s as shit']
-      
-      taken = []        
+
+      taken = []
       def _find_key(string, taken):
         for char in string.replace('%s','').strip():
           if not char.upper() in taken:
@@ -1941,7 +1944,7 @@ class Assorted(callbacks.Privmsg):
     def complain(self, irc, msg, args, topic):
       pgraphs = 1
       gender = 'c'
-      
+
       opener = build_opener()
       html = opener.open("http://www.pakin.org/complaint?" + urlencode({ 'firstname' : topic, 'pgraphs' : pgraphs, 'gender' : gender }))
       html_str = html.read()
@@ -1962,7 +1965,7 @@ class Assorted(callbacks.Privmsg):
             food = soup.find('a')
             text = food.find('p').string + food.find('h2').string
             text = text.replace("\n"," ").strip()
-    
+
         irc.reply(text, prefixNick=True)
 
     def quakes(self, irc, msg, args, opts, loc):
@@ -1973,13 +1976,13 @@ class Assorted(callbacks.Privmsg):
       for (opt, arg) in opts:
         if opt == 'min':
           minq = arg
-      
+
       if (loc != None):
         pref = 'Closest quakes (>=%.2f) to %s in the past 7 days: ' % (minq,loc)
         url = url + ("?sort=distance&from=%s" % (loc))
       else:
         pref = 'Quakes (>=%.2f) in the past 7 days: ' % (minq)
-        
+
       json = urlopen(url).read()
       feed = simplejson.loads(json)
       responses = []
@@ -1990,7 +1993,7 @@ class Assorted(callbacks.Privmsg):
           else:
             s = "%.2f, %s (%s ago)" % (q['magnitude'], q['location'], q['age']['string'])
           responses.append(s)
-        
+
       irc.reply(pref + '; '.join(responses))
     quakes=wrap(quakes,[getopts({'min':'float'}), optional('text')])
 
@@ -2003,11 +2006,11 @@ class Assorted(callbacks.Privmsg):
       """It's a plugin, bitches!"""
       irc.reply(u'%s, bitches!' % re.sub(r'[.!?,;:]+$','',what))
     bitch=wrap(bitch,['text'])
-    
+
     def cocktail(self, irc, msg, args):
       """[<who>]
       Mix a random cocktail from http://www.cocktaildb.com/"""
-      
+
       if len(args) > 0:
           nick = ' '.join(args)
       else:
@@ -2026,7 +2029,7 @@ class Assorted(callbacks.Privmsg):
 
       text = u'mixes %s and %s to make %s %s, and sends it sliding down the bar to %s (%s)' % (u', '.join(ingredients), last, article, drink, nick, resp.url)
       irc.reply(text.encode('utf-8'), action=True)
-    
+
     def compliment(self, irc, msg, args, who):
         """[<who>]
         Pulls an emergency compliment from http://emergencycompliment.com/"""
