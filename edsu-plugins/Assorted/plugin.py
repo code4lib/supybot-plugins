@@ -1104,7 +1104,7 @@ class Assorted(callbacks.Privmsg):
       """
       pours a shot of whisky for you from http://whisky.com/
       """
-      raw_html = urlopen('http://whisky.com/select.html').read()
+      raw_html = urlopen('https://web.archive.org/web/20131222112426/http://www.whisky.com/select.html').read()
       raw_html = raw_html.replace('<option brands/>','<option>').replace('<option value=>','<option>')
       soup = BeautifulSoup(raw_html)
       menu = []
