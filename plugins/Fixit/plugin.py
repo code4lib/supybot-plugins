@@ -23,7 +23,10 @@ class Fixit(callbacks.Plugin):
            'disintermediate','multitenancyize','dashboard','onboard',
            'whiteboard','paper prototype','containerize','centralize',
            'decentralize', 'pip install', 'puppetize', 'quantize',
-           'monetize', 'pipe'
+           'monetize', 'pipe', 'wag', 'vagrant up', 'sniff', 'smoke out',
+           'light up', 'spin up', 'multitennantize', 'bucketize',
+           'Uberize', 'commoditize', 'swipe', 'jiggle', 'relay',
+           'innovate', 'vlog', 'disrupt', 'fuzzy match'
     ]
 
     nouns = ['framework', 'html5', 'rubygem', 'shawarma', 'web app',
@@ -57,7 +60,9 @@ class Fixit(callbacks.Plugin):
            'docker', 'engagement', 'brand', 'self-driving car',
            'MongoDB', 'CouchDB', 'NoSQL', 'SPARQL', 'brony',
            'magical SPARQLpony', 'octocat', 'antipattern', 'haddock',
-           u'Heiðrún'
+           u'Heiðrún', 'Updog', 'Hypervisor', 'packets', 'infrastructure',
+           'buckets', 'stack', 'slack', 'eyeballs', 'PaaS', 'vlog',
+           'SaaS', 'vortal', 'workflow', 'folksonomy', 'DevOps'
     ]
 
     def fixit(self, irc, msg, args):
