@@ -63,9 +63,9 @@ class Helpers(callbacks.Plugin):
         self.db = plugins.DB(self.name(), {'flat': self.DB})()
 
     def _ops(self, channel):
-    	result = [r.op for r in self.db.select(channel, lambda x: True)]
-    	result.sort()
-    	return result
+        result = [r.op for r in self.db.select(channel, lambda x: True)]
+        result.sort()
+        return result
 
     def _calledByOwner(self, irc, msg, args):
         try:
@@ -83,13 +83,13 @@ class Helpers(callbacks.Plugin):
         """<op>
         Add user <op> to the helpers list"""
         if self._calledByOwner(irc, msg, args):
-        	if op in self._ops(channel):
-        		irc.error("%s is already listed as a %s helper" % (op, channel), prefixNick=False)
-        	elif op not in irc.state.channels[channel].users:
-        		irc.error("User %s not found in %s" % (op, channel), prefixNick=False)
-        	else:
-        		self.db.add(channel, op)
-        		irc.reply("The operation succeeded. %s is now a %s helper" % (op, channel), prefixNick=False)
+            if op in self._ops(channel):
+                irc.error("%s is already listed as a %s helper" % (op, channel), prefixNick=False)
+            elif op not in irc.state.channels[channel].users:
+                irc.error("User %s not found in %s" % (op, channel), prefixNick=False)
+            else:
+                self.db.add(channel, op)
+                irc.reply("The operation succeeded. %s is now a %s helper" % (op, channel), prefixNick=False)
     add = wrap(add, ['channeldb', 'nick'])
 
     def remove(self, irc, msg, args, channel, op):
@@ -98,36 +98,36 @@ class Helpers(callbacks.Plugin):
         if self._calledByOwner(irc, msg, args):
             ids = [r.id for r in self.db.select(channel, lambda r: r.op == op)]
             if len(ids) == 0:
-            	irc.error("%s is not listed as a %s helper" % (op, channel), prefixNick=False)
+                irc.error("%s is not listed as a %s helper" % (op, channel), prefixNick=False)
             else:
-            	for i in ids:
-            		self.db.remove(channel, i)
-            	irc.reply("The operation suceeded.", prefixNick=False)
+                for i in ids:
+                    self.db.remove(channel, i)
+                irc.reply("The operation suceeded.", prefixNick=False)
     remove = wrap(remove, ['channeldb', 'nick'])
 
     def list(self, irc, msg, args, opts, channel):
         """[--all]
         List channel members who are available to help navigate channel/conference/mailing list difficulties"""
-    	ops = self._ops(channel)
-    	if len(ops) == 0:
-    		irc.reply("No channel helpers listed for %s" % channel)
-    	else:
-	    	current = True
-	    	for opt,arg in opts:
-	    		if opt == 'all':
-	    			current = False
+        ops = self._ops(channel)
+        if len(ops) == 0:
+            irc.reply("No channel helpers listed for %s" % channel)
+        else:
+            current = True
+            for opt,arg in opts:
+                if opt == 'all':
+                    current = False
 
-	    	if current:	
-	    		prefix = 'List of active %s helpers (@help helpers for details)' % channel
-	    		users = irc.state.channels[channel].users
-	    		ops = [op for op in ops if op in users]
-	    	else:
-	    		prefix = 'List of %s helpers (@help helpers for details)' % channel
+            if current: 
+                prefix = 'List of active %s helpers (@help helpers for details)' % channel
+                users = irc.state.channels[channel].users
+                ops = [op for op in ops if op in users]
+            else:
+                prefix = 'List of %s helpers (@help helpers for details)' % channel
 
-	    	if len(ops) == 0:
-	    		irc.reply("No helpers currently active in %s. Try again with --all to see all registered channel helpers." % channel)
-	    	else:
-	    		irc.reply("%s: %s" % (prefix, ", ".join(ops)), prefixNick=False)
+            if len(ops) == 0:
+                irc.reply("No helpers currently active in %s. Try again with --all to see all registered channel helpers." % channel)
+            else:
+                irc.reply("%s: %s" % (prefix, ", ".join(ops)), prefixNick=False)
 
     list = wrap(list, [getopts({'all':''}),'channeldb'])
     helpers = list
