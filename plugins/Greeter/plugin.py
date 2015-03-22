@@ -33,6 +33,7 @@
 import supybot.utils as utils
 from supybot.commands import *
 import supybot.plugins as plugins
+import supybot.ircdb as ircdb
 import supybot.ircutils as ircutils
 import supybot.callbacks as callbacks
 import supybot.ircmsgs as ircmsgs
@@ -44,7 +45,7 @@ filename = conf.supybot.directories.data.dirize('Greeter.db')
 
 # The bot only sends messages to people who join #code4lib or the channels in this 
 # list. If you're testing the bot, add your test channel(s) here.
-test_channels = ['#jtgtestchannel', '#thataybottest']
+test_channels = ['#jtgtestchannel', '#thataybottest', '#test4lib']
 
 # ok, could use {} to replace channel and have a
 # generic method and have code4lib be a more specific one
@@ -90,6 +91,9 @@ class Greeter(callbacks.Plugin):
                 __fields__ = [
                     'op'
                 ]
+            def add(self, op, **kwargs):
+                record = self.Record(op=op, **kwargs)
+                return super(self.__class__, self).add(record)
 
     def __init__(self, irc):
         # these two lines necessary or goes kabloomie
@@ -97,7 +101,7 @@ class Greeter(callbacks.Plugin):
         self.__parent.__init__(irc)
         self.db = GreeterDB(filename)
         # This relies on the database name set in the Helpers plugin.
-        self.helper_db = plugins.DB('Helpers', {'flat': self.DB})()
+        self.helper_db = plugins.DB('Greeters', {'flat': self.DB})()
 
         # I should pull this out into supybot.conf
         # but nervous about having to alter the supybot.conf
@@ -112,11 +116,23 @@ class Greeter(callbacks.Plugin):
           result = [r.op for r in self.helper_db.select(channel, lambda x: True)]
           result.sort()
           return result        
+
+    def _calledByOwner(self, irc, msg, args):
+        try:
+            u = ircdb.users.getUser(msg.prefix)
+        except KeyError:
+            irc.errorNotRegistered()
+        else:
+            if u._checkCapability('owner'):
+                return True
+            else:
+                irc.error(conf.supybot.replies.noCapability() % ('owner'), Raise=True)
+        return False
                 
     def die(self):
         self.db.close()    
     
-    def remove(self, irc, msg, args):
+    def forget(self, irc, msg, args):
         """ remove nick1 [nick2 nick3...]
            Remove nicks from database. Next time nick logs into channel, they will be greeted again by privmesg with the channel message.
         """
@@ -140,7 +156,7 @@ class Greeter(callbacks.Plugin):
         if len( removedNicks ) > 0:
             irc.reply("Removed: " + ", ".join( removedNicks ))
 
-    def add(self, irc, msg, args):
+    def ignore(self, irc, msg, args):
 
         """ add nick1 [nick2 nick3...]
            This will add the supplied nicks to the ignore list. If they have not visited channel, they will not be greeted. Useful for variations of nicks that may not be ignored.  """
@@ -157,7 +173,58 @@ class Greeter(callbacks.Plugin):
             
         irc.reply("Added: " + ", ".join( addedNicks ))
             
-                
+    def list(self, irc, msg, args, opts, channel):
+        """[--all]
+        List channel members who are available to greet new members"""
+        ops = self._get_helpers(channel)
+        if len(ops) == 0:
+            irc.reply("No channel greeters listed for %s" % channel)
+        else:
+            current = True
+            for opt,arg in opts:
+                if opt == 'all':
+                    current = False
+
+            if current:
+                prefix = 'List of active %s greeters (@help greeters for details)' % channel
+                users = irc.state.channels[channel].users
+                ops = [op for op in ops if op in users]
+            else:
+                prefix = 'List of %s greeters (@help greeters for details)' % channel
+
+            if len(ops) == 0:
+                irc.reply("No greeters currently active in %s. Try again with --all to see all registered channel greeters." % channel)
+            else:
+                irc.reply("%s: %s" % (prefix, ", ".join(ops)), prefixNick=False)
+    list = wrap(list, [getopts({'all':''}),'channeldb'])
+    greeters = list
+
+    def add(self, irc, msg, args, channel, op):
+        """<op>
+        Add user <op> to the helpers list"""
+        if self._calledByOwner(irc, msg, args):
+            if op in self._get_helpers(channel):
+                irc.error("%s is already listed as a %s greeter" % (op, channel), prefixNick=False)
+            elif op not in irc.state.channels[channel].users:
+                irc.error("User %s not found in %s" % (op, channel), prefixNick=False)
+            else:
+                self.helper_db.add(channel, op)
+                irc.reply("The operation succeeded. %s is now a %s greeter" % (op, channel), prefixNick=False)
+    add = wrap(add, ['channeldb', 'nick'])
+
+    def remove(self, irc, msg, args, channel, op):
+        """<op>
+        Remove user <op> from the greeters list"""
+        if self._calledByOwner(irc, msg, args):
+            ids = [r.id for r in self.helper_db.select(channel, lambda r: r.op == op)]
+            if len(ids) == 0:
+                irc.error("%s is not listed as a %s greeter" % (op, channel), prefixNick=False)
+            else:
+                for i in ids:
+                    self.db.remove(channel, i)
+                irc.reply("The operation suceeded.", prefixNick=False)
+    remove = wrap(remove, ['channeldb', 'nick'])
+
     def greeter(self, irc, msg, args):
         """ (add|remove) nick1 [nick2 nick3...]
            This plugin will issue a greeting via privmsg for the first time 
