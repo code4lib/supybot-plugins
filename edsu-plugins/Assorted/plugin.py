@@ -195,6 +195,14 @@ class Assorted(callbacks.Privmsg):
         twss = soup.find("h1")
         irc.reply(twss.string.encode('utf8'))
 
+    def glados(self, irc, msg, args):
+        """Pulls a random GLaDOS quote from http://theportalwiki.com/wiki/GLaDOS_voice_lines"""
+        html = urlopen("http://theportalwiki.com/wiki/GLaDOS_voice_lines").read()
+        soup = BeautifulSoup(html)
+        tags = soup.findAll('a', text='Download')
+        response = random.choice(tags).parent.parent.parent.find('i').text
+        irc.reply(response.encode('utf8'), prefixNick=False)
+
     def hench(self, irc, msg, args):
         """Generates an evil henchperson name from http://www.seventhsanctum.com/"""
         html = urlopen("http://www.seventhsanctum.com/generate.php?Genname=evilnamer").read()
