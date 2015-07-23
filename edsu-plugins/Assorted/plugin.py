@@ -1078,7 +1078,12 @@ class Assorted(callbacks.Privmsg):
         """
         soup = self._url2soup('http://ratetea.com/highest_rated_teas.php')
         rows = soup.findAll('tr')[1:]
-        teas = [t.a for t in rows]
+        teas = []
+        for row in rows:
+            t1 = row.findAll('td', {'class': 'ml'})
+            for td in t1:
+                teas.append(td.a)
+                break
         tea = teas[randint(0, len(teas)-1)]
         tea_name = tea.string.encode('utf-8')
         tea_url = "http://ratetea.com" + tea['href']
