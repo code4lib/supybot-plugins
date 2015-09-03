@@ -49,7 +49,7 @@ class Fixit(callbacks.Plugin):
            'unit tests', 'dependency', 'QR codes', 'plugin', 'backend',
            'frontend','middleware','CAS', 'robots', 'robots.txt',
            'hackfest', 'encoding', 'utf8', 'MARC8', 'pumpkins',
-           'pumpkin patch', 'turd', 'web hook', 'callback', 'shard',
+           'pumpkin patch', 'bot', 'web hook', 'callback', 'shard',
            'hydra head', 'fulltext', 'diacritics', 'EAD',
            'Mechanical Turk', 'quine relay', 'INTERCAL', 'mesh network',
            'octothorpe', 'time machine', 'cross-connected faceplates',
@@ -62,7 +62,8 @@ class Fixit(callbacks.Plugin):
            'magical SPARQLpony', 'octocat', 'antipattern', 'haddock',
            u'Heiðrún', 'Updog', 'Hypervisor', 'packets', 'infrastructure',
            'buckets', 'stack', 'slack', 'eyeballs', 'PaaS', 'vlog',
-           'SaaS', 'vortal', 'workflow', 'folksonomy', 'DevOps'
+           'SaaS', 'vortal', 'workflow', 'folksonomy', 'DevOps',
+           'slack channel',
     ]
 
     def fixit(self, irc, msg, args):
