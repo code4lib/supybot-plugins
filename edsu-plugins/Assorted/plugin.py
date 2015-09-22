@@ -1086,6 +1086,7 @@ class Assorted(callbacks.Privmsg):
                 break
         tea = teas[randint(0, len(teas)-1)]
         tea_name = tea.string.encode('utf-8')
+        tea_name = tea_name.decode('utf-8')
         tea_url = "http://ratetea.com" + tea['href']
         if len(args) > 0:
             nick = ' '.join(args)
