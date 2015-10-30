@@ -237,7 +237,7 @@ class Assorted(callbacks.Privmsg):
         tags = []
         for tag in tagcloud.findAll('li'):
             tags.append(tag.a.string)
-        mytag = tags[randint(0, len(tags))]
+        mytag = choice(tags)
         search = urlopen("http://www.penny-arcade.com/archive/?q=" + mytag).read()
         comiclist = BeautifulSoup(search)
         comics = comiclist.findAll("td","content_title")
@@ -245,7 +245,7 @@ class Assorted(callbacks.Privmsg):
         for td in comics:
             print td.a['href']
             links.append(td.a['href'])
-        comic = links[randint(0, len(links))]
+        comic = choice(links)
         irc.reply("http://www.penny-arcade.com" + comic)
 
     def wine(self, irc, msg, args):
@@ -259,7 +259,7 @@ class Assorted(callbacks.Privmsg):
         for li in soup.findAll('li'):
             if li.a:
                 wines.append((li.a['href'], li.a.string))
-        wine = wines[randint(0, len(wines))]
+        wine = choice(wines)
         if len(args) > 0:
             nick = ' '.join(args)
         else:
@@ -1064,7 +1064,7 @@ class Assorted(callbacks.Privmsg):
         root = lxml.html.soupparser.fromstring(data, convertEntities=False)
         nodes = root.xpath('//div[@class="review_general2"]//h3')
         coffees = [x.text_content() for x in nodes]
-        coffee = coffees[randint(0, len(coffees))]
+        coffee = choice(coffees)
         if len(args) > 0:
             nick = ' '.join(args)
         else:
@@ -1107,7 +1107,7 @@ class Assorted(callbacks.Privmsg):
         for li in soup.findAll('li'):
             if li.a:
                 beers.append((li.a['href'], li.a.string))
-        beer = beers[randint(0, len(beers))]
+        beer = choice(beers)
         if len(args) > 0:
             nick = ' '.join(args)
         else:
@@ -1127,7 +1127,7 @@ class Assorted(callbacks.Privmsg):
           menu.append((option['value'], option.string.replace('_',' ')))
         except KeyError:
           pass
-      order = menu[randint(0, len(menu))]
+      order = choice(menu)
       if len(args) > 0:
         nick = ' '.join(args)
       else:
@@ -1567,7 +1567,7 @@ class Assorted(callbacks.Privmsg):
         """
         Melting your face off.
         """
-        quote = unicode(sheendata.quotes[randint(0, len(sheendata.quotes))])
+        quote = unicode(choice(sheendata.quotes))
         irc.reply(quote.encode('utf-8'), prefixNick=False)
 
     def slowclap(self, irc, msg, args):
