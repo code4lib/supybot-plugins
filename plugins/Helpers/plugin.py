@@ -133,6 +133,7 @@ class Helpers(callbacks.Plugin):
     helpers = list
 
     def janitors(self, irc, msg, args, channel):
+        """Never forget!"""
         if channel == '#code4lib':
             irc.reply("The #code4lib janitor is robcaSSon", prefixNick=False)
         else:
