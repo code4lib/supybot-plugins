@@ -201,6 +201,7 @@ class Quote(plugins.ChannelIdDatabasePlugin):
     raw = wrap(raw, ['channeldb', optional('id')])
 
     def derp(self, irc, msg, args, channel, id):
+      """Herpity Derp!"""
       words = ('herp','derp','da','herpity','derpity','herpa','derpa')
       if id is None:
         quote = self.db.random(channel)
