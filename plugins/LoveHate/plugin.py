@@ -111,11 +111,13 @@ class LoveHate(callbacks.Plugin):
       irc.reply(response)      
       
     def lovers(self, irc, msg, args, channel):
-      self._top(irc, msg, args, channel, 'love')
+        """Who loves the most"""
+        self._top(irc, msg, args, channel, 'love')
     lovers = wrap(lovers, ['channeldb'])
       
     def haters(self, irc, msg, args, channel):
-      self._top(irc, msg, args, channel, 'hate')
+        """Who needs a hug"""
+        self._top(irc, msg, args, channel, 'hate')
     haters = wrap(haters, ['channeldb'])
 
     def love(self, irc, msg, args, channel, thing):
@@ -266,6 +268,7 @@ class LoveHate(callbacks.Plugin):
     random = wrap(random, ['channeldb',optional(("literal", ("love","hate")))])
     
     def get(self, irc, msg, args, channel, id):
+        """I don't even know what this does"""
         if id == None:
             records = self.db.select(channel, lambda r: True)
             responses = []
@@ -278,6 +281,7 @@ class LoveHate(callbacks.Plugin):
     get = wrap(get, [('checkCapability','admin'), 'channeldb', optional('id')])
     
     def remove(self, irc, msg, args, channel, id):
+        """Remove something?"""
         if id == None:
             irc.reply('No id specified')
         try:
