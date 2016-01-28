@@ -26,7 +26,8 @@ class Fixit(callbacks.Plugin):
            'monetize', 'pipe', 'wag', 'vagrant up', 'sniff', 'smoke out',
            'light up', 'spin up', 'multitennantize', 'bucketize',
            'Uberize', 'commoditize', 'swipe', 'jiggle', 'relay',
-           'innovate', 'vlog', 'disrupt', 'fuzzy match'
+           'innovate', 'vlog', 'disrupt', 'fuzzy match', 'transcode',
+           'upload', 'QA', 'breakpoint', 'uberize', 'subtweet'
     ]
 
     nouns = ['framework', 'html5', 'rubygem', 'shawarma', 'web app',
@@ -63,17 +64,24 @@ class Fixit(callbacks.Plugin):
            u'Heiðrún', 'Updog', 'Hypervisor', 'packets', 'infrastructure',
            'buckets', 'stack', 'slack', 'eyeballs', 'PaaS', 'vlog',
            'SaaS', 'vortal', 'workflow', 'folksonomy', 'DevOps',
-           'slack channel',
+           'slack channel', 'hipchat', 'rsync', 'beanstalk', 'unicorn',
+           'uber', 'subtweet'
     ]
+
+    def _genwords(self):
+        while True:
+            verb = choice(self.verbs)
+            noun1 = choice(self.nouns)
+            noun2 = choice(self.nouns)
+            if len(dict((x,1) for x in [verb, noun1, noun2])) == 3:
+                return verb, noun1, noun2
 
     def fixit(self, irc, msg, args):
         """
         Get advice for solving your intractable tech problems.
         """
 
-        verb = choice(self.verbs)
-        thingy = choice(self.nouns)
-        tool = choice(self.nouns)
+        verb, thingy, tool = self._genwords()
         advice = "Just "+verb+" the "+thingy+" with your "+tool+"."
         irc.reply(advice, prefixNick=True)
 
@@ -87,9 +95,7 @@ class Fixit(callbacks.Plugin):
         else:
             owner = "%s's" % who
 
-        verb = choice(self.verbs)
-        simile = choice(self.nouns)
-        awesomesauce = choice(self.nouns)
+        verb, simile, awesomesauce = self._genwords()
 
         if simile[0] in ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']:
             article = " an "
