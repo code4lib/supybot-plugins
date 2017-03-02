@@ -139,7 +139,15 @@ class Helpers(callbacks.Plugin):
         else:
             irc.reply("No janitors listed for %s" % (channel), prefixNick=False)
     janitors = wrap(janitors, ['channeldb'])
-        
+
+    def dutyofficers(self, irc, msg, args, channel):
+        """Provide information about Code4lib 2017 duty officers"""
+        if channel == '#code4lib':
+            irc.reply("To contact a Code4lib 2017 duty officer, please see http://2017.code4lib.org/duty-officers/")
+        else:
+            irc.reply("No duty officer information listed for %s" % (channel), prefixNick=False)
+    dutyofficers = wrap(dutyofficers, ['channeldb'])
+
 Class = Helpers
 
 
