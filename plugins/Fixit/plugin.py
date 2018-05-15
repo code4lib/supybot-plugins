@@ -27,7 +27,9 @@ class Fixit(callbacks.Plugin):
            'light up', 'spin up', 'multitennantize', 'bucketize',
            'Uberize', 'commoditize', 'swipe', 'jiggle', 'relay',
            'innovate', 'vlog', 'disrupt', 'fuzzy match', 'transcode',
-           'upload', 'QA', 'breakpoint', 'uberize', 'subtweet'
+           'upload', 'QA', 'breakpoint', 'uberize', 'subtweet',
+           'back propagate', 'forward propagate', 'orchestrate',
+           'pipeline'
     ]
 
     nouns = ['framework', 'html5', 'rubygem', 'shawarma', 'web app',
@@ -65,7 +67,9 @@ class Fixit(callbacks.Plugin):
            'buckets', 'stack', 'slack', 'eyeballs', 'PaaS', 'vlog',
            'SaaS', 'vortal', 'workflow', 'folksonomy', 'DevOps',
            'slack channel', 'hipchat', 'rsync', 'beanstalk', 'unicorn',
-           'uber', 'subtweet'
+           'uber', 'subtweet', 'blockchain', 'machine learning', 'AI',
+           'artificial intelligence', 'neural net', '0day', 'kubernetes',
+           'pipeline', 'leftpad', 'Samvera'
     ]
 
     def _genwords(self):
